@@ -27,7 +27,7 @@ public class PortalGun : MonoBehaviour
                 if (hit.transform.tag.Equals("Printable"))
                 {
                     Destroy(Instantiate(blueParticles, hit.point, Quaternion.identity), .5f);
-                    gm.ChangeBluePortal(CreatePortal(bluePortalPrefab, hit));
+                    gm.ChangeBluePortal(CreatePortal(bluePortalPrefab, hit), hit.transform.GetComponent<Collider>());
                 }
             }
 
@@ -41,22 +41,24 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
-
                     Destroy(Instantiate(orangeParticles, hit.point, Quaternion.identity), .5f);
-                    gm.ChangeOrangePortal(CreatePortal(orangePortalPrefab, hit));
+                    gm.ChangeOrangePortal(CreatePortal(orangePortalPrefab, hit), hit.transform.GetComponent<Collider>());
                 }
             }
 
         }
     }
 
-    private GameObject CreatePortal(GameObject portalPrefab, RaycastHit hit)
+    private Portal CreatePortal(GameObject portalPrefab, RaycastHit hit)
     {
         GameObject portal = Instantiate(portalPrefab, hit.point, Quaternion.identity);
 
         portal.transform.forward = hit.normal;
 
-        return portal;
+        if (hit.normal.y != 0)
+            portal.transform.eulerAngles += Vector3.forward * gm.player.transform.eulerAngles.y;
+
+        return portal.GetComponent<Portal>();
     }
 
 }

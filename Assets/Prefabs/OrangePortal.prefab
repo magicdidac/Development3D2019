@@ -72,5 +72,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b2e686d8a940fe945b7e05dd5efc247d, type: 2}
+    - target: {fileID: 7809414544987599903, guid: 1b51741f0bbc0504eaf4127dd280e03e,
+        type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 07d4980701a4f9340b3d023484edc42a, type: 2}
+    - target: {fileID: 8711563808729356098, guid: 1b51741f0bbc0504eaf4127dd280e03e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 26d80ccf02ae9b849ade71d4c4e60eeb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b51741f0bbc0504eaf4127dd280e03e, type: 3}

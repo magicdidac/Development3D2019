@@ -8,10 +8,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 12f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpHeight = 3f;
-
+    [Space]
     [SerializeField] private Transform groundCheck = null;
     [SerializeField] private float groundDistance = .4f;
     [SerializeField] private LayerMask groundMask = 0;
+
 
     private Vector3 velocity;
     private bool isGrounded;
@@ -36,6 +37,22 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+    }
+
+    public void TeleportToPortal(Portal portal)
+    {
+
+        Vector3 position = portal.GetOtherPortal().transform.InverseTransformPoint(transform.position);
+
+        controller.enabled = false;
+        transform.position = portal.transform.TransformPoint(position);// + (portal.GetOtherPortal().transform.forward * .2f);
+        controller.enabled = true;
+
+        Vector3 direction = portal.GetOtherPortal().transform.InverseTransformDirection(-transform.forward);
+        transform.forward = portal.transform.TransformDirection(direction);
+
+
 
     }
 }

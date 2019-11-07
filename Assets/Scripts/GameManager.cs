@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public static GameManager instance { get; private set; }
 
-    [HideInInspector] private GameObject bluePortal;
-    [HideInInspector] private GameObject orangePortal;
+    [SerializeField] public PlayerMovement player = null;
+
+    [HideInInspector] private Portal bluePortal;
+    [HideInInspector] private Portal orangePortal;
 
     private void Awake()
     {
@@ -18,20 +20,34 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    public void ChangeBluePortal(GameObject newPortal)
+    public void ChangeBluePortal(Portal newPortal, Collider col)
     {
         if(bluePortal != null)
-            Destroy(bluePortal);
+            Destroy(bluePortal.gameObject);
 
         bluePortal = newPortal;
+        bluePortal.wallCollider = col;
+
+        if (orangePortal != null)
+        {
+            orangePortal.SetOtherPortal(bluePortal);
+            bluePortal.SetOtherPortal(orangePortal);
+        }
     }
 
-    public void ChangeOrangePortal(GameObject newPortal)
+    public void ChangeOrangePortal(Portal newPortal, Collider col)
     {
         if(orangePortal != null)
-            Destroy(orangePortal);
+            Destroy(orangePortal.gameObject);
 
         orangePortal = newPortal;
+        orangePortal.wallCollider = col;
+
+        if (bluePortal != null)
+        {
+            bluePortal.SetOtherPortal(orangePortal);
+            orangePortal.SetOtherPortal(bluePortal);
+        }
     }
 
 }
