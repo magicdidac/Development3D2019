@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller = null;
+    [SerializeField] public CharacterController controller = null;
     [SerializeField] private float speed = 12f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpHeight = 3f;
@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
+
 
     private void Update()
     {
@@ -40,35 +41,25 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    /*public void TeleportToPortal(Portal portal)
+    public void TeleportToPortal(Portal portal, float offset, bool isZ)
     {
-
-        Vector3 position = portal.otherPortal.transform.InverseTransformPoint(transform.position);
-
-        controller.enabled = false;
-        transform.position = portal.transform.TransformPoint(position) + (portal.transform.forward * .2f);
-        controller.enabled = true;
-
-        Vector3 direction = portal.otherPortal.transform.InverseTransformDirection(-transform.forward);
-        transform.forward = portal.transform.TransformDirection(direction);
-
-
-
-    }*/
-
-    public void TeleportToPortal(Portal portal, float offset)
-    {
-        float yDistance = transform.position.y - portal.transform.position.y;
         float xDistance = transform.position.x - portal.transform.position.x;
+        float yDistance = transform.position.y - portal.transform.position.y;
+        float zDistance = transform.position.z - portal.transform.position.z;
 
         controller.enabled = false;
-        transform.position = portal.otherPortal.transform.position + (Vector3.right * - xDistance) + (Vector3.up * yDistance) + (portal.otherPortal.transform.forward * Mathf.Abs(offset));
+        if(isZ)
+            transform.position = portal.otherPortal.transform.position + (Vector3.right * -xDistance) + (Vector3.up * yDistance) + (portal.otherPortal.transform.forward * Mathf.Abs(offset));
+        else
+            transform.position = portal.otherPortal.transform.position + (Vector3.forward * -zDistance) + (Vector3.up * yDistance) + (portal.otherPortal.transform.forward * Mathf.Abs(offset));
+
         controller.enabled = true;
 
-        //transform.forward = portal.otherPortal.transform.forward;
 
         Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
         transform.forward = portal.otherPortal.transform.TransformDirection(direction);
+
+        portal.otherPortal.showMock = false;
 
     }
 

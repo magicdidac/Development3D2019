@@ -8,12 +8,15 @@ public class Portal : MonoBehaviour
     [SerializeField] public Camera cam = null;
     [SerializeField] public Collider trigger = null;
     [SerializeField] public PortalTrigger myTrigger = null;
+    [SerializeField] private GameObject playerMock = null;
 
     private float distance;
     [HideInInspector] public Collider wallCollider;
     [HideInInspector] public Portal otherPortal;
     [HideInInspector] private GameManager gm;
     [HideInInspector] private Transform playerCamera;
+    [HideInInspector] private Transform mockTransform;
+    [HideInInspector] public bool showMock = false;
 
     private void Start()
     {
@@ -29,10 +32,41 @@ public class Portal : MonoBehaviour
             return;
         }
 
-        ChangeCamera();
+        ChangeCamera();       
 
-        CheckTeleport();
-        
+    }
+
+    private void FixedUpdate()
+    {
+        if (showMock)
+        {
+            if (mockTransform == null)
+                mockTransform = Instantiate(playerMock, transform.position, Quaternion.identity).transform;
+
+            ChangeMock();
+
+        }
+        else if (mockTransform != null)
+            Destroy(mockTransform.gameObject);
+    }
+
+    private void ChangeMock()
+    {
+        float xDistance = gm.player.transform.position.x - otherPortal.transform.position.x;
+        float yDistance = gm.player.transform.position.y - otherPortal.transform.position.y;
+        float zDistance = gm.player.transform.position.z - otherPortal.transform.position.z;
+
+
+        xDistance = -xDistance;
+
+        zDistance = -zDistance;
+
+        Vector3 newPosition = transform.position + new Vector3(xDistance, yDistance, zDistance);
+
+        Debug.Log(newPosition);
+
+        mockTransform.position = newPosition;
+
     }
 
     private void ChangeCamera()
@@ -52,25 +86,6 @@ public class Portal : MonoBehaviour
 
     }
 
-    private void CheckTeleport()
-    {
-        /*Transform player = gm.player.transform;
-        distance = (player.position - transform.position).magnitude;
-
-        if(distance < .4f)
-        {
-            Debug.Log(distance);
-            gm.player.TeleportToPortal(otherPortal);
-        }*/
-
-    }
-
-    public void Teleport()
-    {
-        otherPortal.trigger.enabled = false;
-        //gm.player.TeleportToPortal(otherPortal);
-    }
-
     public void SetOtherPortal(Portal otherPortal)
     {
         this.otherPortal = otherPortal;
@@ -79,12 +94,13 @@ public class Portal : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         this.wallCollider.enabled = false;
+        otherPortal.showMock = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
         this.wallCollider.enabled = true;
-        trigger.enabled = true;
+        otherPortal.showMock = false;
     }
 
 }

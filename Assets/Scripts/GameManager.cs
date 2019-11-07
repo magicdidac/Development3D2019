@@ -22,8 +22,11 @@ public class GameManager : MonoBehaviour
 
     public void ChangeBluePortal(Portal newPortal, Collider col)
     {
-        if(bluePortal != null)
+        if (bluePortal != null)
+        {
+            bluePortal.trigger.enabled = true;
             Destroy(bluePortal.gameObject);
+        }
 
         bluePortal = newPortal;
         bluePortal.wallCollider = col;
@@ -37,8 +40,11 @@ public class GameManager : MonoBehaviour
 
     public void ChangeOrangePortal(Portal newPortal, Collider col)
     {
-        if(orangePortal != null)
+        if (orangePortal != null)
+        {
+            orangePortal.trigger.enabled = true;
             Destroy(orangePortal.gameObject);
+        }
 
         orangePortal = newPortal;
         orangePortal.wallCollider = col;
