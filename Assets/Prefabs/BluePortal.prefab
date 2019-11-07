@@ -241,7 +241,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 7809414544987599903}
   trigger: {fileID: 6597162311285214662}
+  myTrigger: {fileID: 7998284026632021145}
   wallCollider: {fileID: 0}
+  otherPortal: {fileID: 0}
 --- !u!65 &7736229019953988106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -251,9 +253,9 @@ BoxCollider:
   m_GameObject: {fileID: 4220811188239079383}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 0.1, z: 0.5}
+  m_Size: {x: 1.7, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: -1.5, z: 0}
 --- !u!65 &664187584322334975
 BoxCollider:
@@ -266,7 +268,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 3, z: 0.5}
+  m_Size: {x: 0.1, y: 3, z: 0.1}
   m_Center: {x: 0.9, y: 0, z: 0}
 --- !u!65 &5605543301471841503
 BoxCollider:
@@ -279,7 +281,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 3, z: 0.5}
+  m_Size: {x: 0.1, y: 3, z: 0.1}
   m_Center: {x: -0.9, y: 0, z: 0}
 --- !u!65 &5048582870279588609
 BoxCollider:
@@ -292,7 +294,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 0.1, z: 0.5}
+  m_Size: {x: 1.7, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!65 &5715768906962727901
 BoxCollider:
@@ -333,7 +335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4691976757564975886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4220811188239079376}
@@ -350,7 +352,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.4}
+  m_Size: {x: 1.5, y: 2, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7998284026632021145
 MonoBehaviour:
@@ -365,6 +367,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portal: {fileID: 278885433583708677}
+  offset: 0.01
+  playerIsOverlapping: 0
 --- !u!1 &8843184727488596060
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 129996910563184386}
   - component: {fileID: 7809414544987599903}
+  - component: {fileID: 8022056149820926610}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -439,3 +444,16 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &8022056149820926610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843184727488596060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5c7a54abcf9bf429180eac5069dd3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portal: {fileID: 278885433583708677}

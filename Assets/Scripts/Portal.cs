@@ -7,15 +7,18 @@ public class Portal : MonoBehaviour
 
     [SerializeField] public Camera cam = null;
     [SerializeField] public Collider trigger = null;
+    [SerializeField] public PortalTrigger myTrigger = null;
 
     private float distance;
     [HideInInspector] public Collider wallCollider;
-    [HideInInspector] private Portal otherPortal;
+    [HideInInspector] public Portal otherPortal;
     [HideInInspector] private GameManager gm;
+    [HideInInspector] private Transform playerCamera;
 
     private void Start()
     {
         gm = GameManager.instance;
+        playerCamera = Camera.main.transform;
     }
 
     private void Update()
@@ -39,9 +42,10 @@ public class Portal : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y + 180, eulerAngles.z);
         Matrix4x4 worldMatrix = Matrix4x4.TRS(transform.position, rotation, transform.localScale);
 
-        Vector3 reflectedPosition = worldMatrix.inverse.MultiplyPoint3x4(Camera.main.transform.position);
-        Vector3 reflectedDirection = worldMatrix.inverse.MultiplyVector(Camera.main.transform.forward);
+        Vector3 reflectedPosition = worldMatrix.inverse.MultiplyPoint3x4(playerCamera.position);
+        Vector3 reflectedDirection = worldMatrix.inverse.MultiplyVector(playerCamera.forward);
         otherPortal.cam.transform.position = otherPortal.transform.TransformPoint(reflectedPosition);
+        otherPortal.cam.transform.position = new Vector3(otherPortal.cam.transform.position.x, playerCamera.position.y, otherPortal.cam.transform.position.z);
         otherPortal.cam.transform.forward = otherPortal.transform.TransformDirection(reflectedDirection);
 
         cam.nearClipPlane = Vector3.Distance(cam.transform.position, this.transform.position) + .5f;
@@ -64,17 +68,12 @@ public class Portal : MonoBehaviour
     public void Teleport()
     {
         otherPortal.trigger.enabled = false;
-        gm.player.TeleportToPortal(otherPortal);
+        //gm.player.TeleportToPortal(otherPortal);
     }
 
     public void SetOtherPortal(Portal otherPortal)
     {
         this.otherPortal = otherPortal;
-    }
-
-    public Portal GetOtherPortal()
-    {
-        return otherPortal;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,7 +83,6 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(gameObject.name);
         this.wallCollider.enabled = true;
         trigger.enabled = true;
     }
