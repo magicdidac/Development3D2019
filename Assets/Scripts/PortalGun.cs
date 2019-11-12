@@ -11,6 +11,7 @@ public class PortalGun : MonoBehaviour
     [SerializeField] private GameObject portalChecker = null;
     [SerializeField] private GameObject bluePreview = null;
     [SerializeField] private GameObject orangePreview = null;
+    [SerializeField] private Transform objectsTarget = null;
 
     [HideInInspector] private GameManager gm;
     [HideInInspector] private Transform preview;
@@ -49,6 +50,33 @@ public class PortalGun : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            RaycastHit hit;
+
+            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5))
+            {
+                if (hit.transform.tag.Equals("Pickable"))
+                {
+                    hit.transform.GetComponent<Pickable>().SetTarget(objectsTarget);
+                }
+            }
+
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
+            {
+                if (hit.transform.tag.Equals("Pickable"))
+                {
+                    hit.transform.GetComponent<Pickable>().SetTarget(null);
+                }
+            }
+        }
+
         if (Input.GetButtonUp("Fire1"))
         {
             RaycastHit hit;
