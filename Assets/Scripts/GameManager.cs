@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeBluePortal(Portal newPortal, Collider col)
     {
+        if (newPortal == null)
+            return;
+
         if (bluePortal != null)
         {
             bluePortal.trigger.enabled = true;
@@ -40,6 +43,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeOrangePortal(Portal newPortal, Collider col)
     {
+        if (newPortal == null)
+            return;
+
         if (orangePortal != null)
         {
             orangePortal.trigger.enabled = true;
