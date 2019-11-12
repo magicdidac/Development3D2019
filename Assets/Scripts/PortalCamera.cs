@@ -19,26 +19,18 @@ public class PortalCamera : MonoBehaviour
         if (portal.otherPortal == null)
             return;
 
-        /*Vector3 playerOffsetFromPortal = playerCamera.position - portal.otherPortal.transform.position;
-        transform.position = portal.transform.position - playerOffsetFromPortal;
+        Vector3 eulerAngles = portal.transform.rotation.eulerAngles;
+        Quaternion rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y + 180, eulerAngles.z);
+        Matrix4x4 worldMatrix = Matrix4x4.TRS(portal.transform.position, rotation, portal.transform.localScale);
 
-        float anglularDifferenceBetweenPortalRotation = Quaternion.Angle(portal.transform.rotation, portal.otherPortal.transform.rotation);
+        Vector3 reflectedPosition = worldMatrix.inverse.MultiplyPoint3x4(playerCamera.position);
+        Vector3 reflectedDirection = worldMatrix.inverse.MultiplyVector(playerCamera.forward);
+        portal.otherPortal.cam.transform.position = portal.otherPortal.transform.TransformPoint(reflectedPosition);
+        portal.otherPortal.cam.transform.forward = portal.otherPortal.transform.TransformDirection(reflectedDirection);
+        
 
-        Quaternion portalRotationalDifference = Quaternion.AngleAxis(anglularDifferenceBetweenPortalRotation, Vector3.up);
-        Vector3 newCameraDiraction = portalRotationalDifference * playerCamera.forward;
-        transform.rotation = Quaternion.LookRotation(newCameraDiraction, Vector3.up);
-        portal.otherPortal.cam.nearClipPlane = Mathf.Abs(portal.otherPortal.cam.transform.localPosition.z);
+        portal.cam.nearClipPlane = Vector3.Distance(portal.cam.transform.position, portal.transform.position) + .5f;
 
-        /*float zDistance = playerCamera.transform.position.z - portal.transform.position.z;
-        float xDistance = playerCamera.transform.position.x - portal.transform.position.x;
-
-        float angle = Mathf.Atan(zDistance / xDistance);
-
-        portal.otherPortal.cam.transform.eulerAngles = new Vector3(portal.otherPortal.cam.transform.eulerAngles.x, 180 + angle, portal.otherPortal.cam.transform.eulerAngles.z);
-        portal.otherPortal.cam.transform.position = portal.otherPortal.transform.position - (Vector3.forward * zDistance);
-
-        //portal.otherPortal.cam.nearClipPlane = Vector3.Distance(portal.otherPortal.cam.transform.position, portal.otherPortal.transform.position);
-        portal.otherPortal.cam.nearClipPlane = Mathf.Abs(portal.otherPortal.cam.transform.localPosition.z);*/
     }
 
 }
