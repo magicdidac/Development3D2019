@@ -29,7 +29,7 @@ public class PortalCamera : MonoBehaviour
         portal.otherPortal.cam.transform.forward = portal.otherPortal.transform.TransformDirection(reflectedDirection);
         
 
-        portal.cam.nearClipPlane = Vector3.Distance(portal.cam.transform.position, portal.transform.position) + .5f;
+        portal.cam.nearClipPlane = Vector3.Distance(portal.cam.transform.position, portal.transform.position) + .1f;
 
     }
 

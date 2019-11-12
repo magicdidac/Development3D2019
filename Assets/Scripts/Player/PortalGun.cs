@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PortalGun : MonoBehaviour
 {
-    //[SerializeField] private GameObject blueParticles = null;
-    //[SerializeField] private GameObject orangeParticles = null;
     [SerializeField] private GameObject bluePortalPrefab = null;
     [SerializeField] private GameObject orangePortalPrefab = null;
     [SerializeField] private GameObject portalChecker = null;
@@ -16,6 +14,9 @@ public class PortalGun : MonoBehaviour
     [HideInInspector] private GameManager gm;
     [HideInInspector] private Transform preview;
     [HideInInspector] private PortalChecker checker;
+    [HideInInspector] private bool canCreatePortals = true;
+
+    [HideInInspector] private Pickable pickable;
 
     private void Start()
     {
@@ -24,6 +25,9 @@ public class PortalGun : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canCreatePortals)
+            return;
+
         if (Input.GetButton("Fire1"))
         {
             RaycastHit hit;
@@ -50,7 +54,24 @@ public class PortalGun : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+
+        if (Input.GetButtonDown("Interact"))
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5))
+            {
+                if (hit.transform.tag.Equals("Interactable"))
+                {
+                    Interactable i = hit.transform.GetComponent<Interactable>();
+                    if (i.CanInteract())
+                    {
+                        i.Interact();
+                    }
+                }
+            }
+        }
+
+        if (canCreatePortals && Input.GetButtonDown("Fire1"))
         {
             RaycastHit hit;
 
@@ -58,24 +79,31 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Pickable"))
                 {
-                    hit.transform.GetComponent<Pickable>().SetTarget(objectsTarget);
+                    pickable = hit.transform.GetComponent<Pickable>();
+                    pickable.SetTarget(objectsTarget);
+                    canCreatePortals = false;
+                    return;
                 }
             }
 
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if(!canCreatePortals && Input.GetButtonDown("Fire1"))
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
-            {
-                if (hit.transform.tag.Equals("Pickable"))
-                {
-                    hit.transform.GetComponent<Pickable>().SetTarget(null);
-                }
-            }
+            pickable.SetTarget(objectsTarget);
+            ResetTarget();
+            return;
         }
+
+        if (!canCreatePortals && Input.GetButtonDown("Fire2"))
+        {
+            pickable.SetTarget(null);
+            ResetTarget();
+            return;
+        }
+
+        if (!canCreatePortals)
+            return;
 
         if (Input.GetButtonUp("Fire1"))
         {
@@ -104,6 +132,12 @@ public class PortalGun : MonoBehaviour
             }
 
         }
+    }
+
+    public void ResetTarget()
+    {
+        pickable = null;
+        canCreatePortals = true;
     }
 
     private void MovePreview(RaycastHit hit, GameObject previewPrefab)

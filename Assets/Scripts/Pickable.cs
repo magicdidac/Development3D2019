@@ -17,18 +17,20 @@ public class Pickable : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (target == null)
             return;
 
-        rb.MovePosition(target.position);
+        Vector3 direction = target.position - transform.position;
+        rb.velocity = ((target.position - transform.position) * Time.deltaTime * 1000);
 
         transform.forward = Vector3.MoveTowards(transform.forward, target.forward, 5);
 
-        if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > .37f)
+        if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {
             SetTarget(null);
+            GameManager.instance.player.gun.ResetTarget();
         }
 
     }

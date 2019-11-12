@@ -4,6 +4,9 @@ We hace to make an Portal clone and it need to have the following features:
 
 ## "Mandatory" features
 
+- [x] works
+- [x] works too
+
 ## "Optional" features
 
 ## Packages used

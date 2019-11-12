@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 3f;
     [Space]
     [SerializeField] private Transform groundCheck = null;
+    [SerializeField] public PortalGun gun = null;
     [SerializeField] private float groundDistance = .4f;
     [SerializeField] private LayerMask groundMask = 0;
 
