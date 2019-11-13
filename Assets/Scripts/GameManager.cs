@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] public PlayerMovement player = null;
 
-    [HideInInspector] private Portal bluePortal;
-    [HideInInspector] private Portal orangePortal;
+    [HideInInspector] public Portal bluePortal { get; private set; }
+    [HideInInspector] public Portal orangePortal { get; private set; }
+    [HideInInspector] public UIManager uiManager;
 
     private void Awake()
     {
@@ -39,6 +40,9 @@ public class GameManager : MonoBehaviour
             orangePortal.SetOtherPortal(bluePortal);
             bluePortal.SetOtherPortal(orangePortal);
         }
+
+        uiManager.ReloadUI();
+
     }
 
     public void ChangeOrangePortal(Portal newPortal, Collider col)
@@ -60,6 +64,9 @@ public class GameManager : MonoBehaviour
             bluePortal.SetOtherPortal(orangePortal);
             orangePortal.SetOtherPortal(bluePortal);
         }
+
+        uiManager.ReloadUI();
+
     }
 
 }

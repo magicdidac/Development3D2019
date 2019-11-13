@@ -9,7 +9,7 @@ public class CubeDispenser : Interactable
 
     public override bool CanInteract()
     {
-        return true;
+        return false;
     }
 
     public override void Interact()

@@ -21,9 +21,9 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Teleport**
 	- [x] Teleport from one to another
 	- [x] Keep angle and position
-- [ ] **Companion Cubes**
+- [x] **Companion Cubes**
 	- [x] Cube dropper
-	- [ ] Cubes active ground buttons
+	- [x] Cubes active ground buttons
 - [x] **Gravity Gun**
 	- [x] Pick up the cubes
 	- [x] Move the cubes with the view
@@ -43,9 +43,9 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Pick up with the gravity gun
 	- [ ] Dies if touch any type of laser
 
-- [ ] **Doors / Buttons**
-	- [ ] Open door
-	- [ ] Interact with the button to open the door
+- [x] **Doors / Buttons**
+	- [x] Open door
+	- [x] Interact with the button to open the door
 - [ ] **Dead Zones**
 	- [ ] When player touches the dead zone, He dies
 - [ ] **Physic Surfaces**
@@ -65,8 +65,8 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Laser switch
 - [ ] **Blocking cube**
 	- [ ] The companion cubes block the laser
-- [ ] **Crosshair**
-	- [ ] Chenge when portals have been created
+- [x] **Crosshair**
+	- [x] Chenge when portals have been created
 
 ## Packages used
 

@@ -6,13 +6,13 @@ public class PilarButton : Interactable
 {
     [SerializeField] private float waitTime = .5f;
 
-    [SerializeField] private Interactable interactableObject = null;
+    [SerializeField] private List<Interactable> interactableObjects = new List<Interactable>();
 
     [HideInInspector] private float lastTime = 0;
 
     public override bool CanInteract()
     {
-        return interactableObject.CanInteract() && (lastTime + waitTime < Time.time);
+        return (lastTime + waitTime < Time.time);
     }
 
     public override void Interact()
@@ -21,7 +21,16 @@ public class PilarButton : Interactable
 
         //TODO: Make Animation
 
-        interactableObject.Interact();
+        foreach(Interactable i in interactableObjects)
+            i.Interact();
+
+        Invoke("DisableDots", waitTime - .05f);
 
     }
+
+    private void DisableDots()
+    {
+        interactableObjects[0].Interact();
+    }
+
 }
