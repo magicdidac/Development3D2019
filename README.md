@@ -59,12 +59,12 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Save checkpoint
 	- [ ] Restart from the checkpoint
 - [ ] **Sound**
-- [ ] **Refraction Cube**
-	- [ ] Shoot laser from wall
-	- [ ] Refract the laser with the cube
-	- [ ] Laser switch
-- [ ] **Blocking cube**
-	- [ ] The companion cubes block the laser
+- [x] **Refraction Cube**
+	- [x] Shoot laser from wall
+	- [x] Refract the laser with the cube
+	- [x] Laser switch
+- [x] **Blocking cube**
+	- [x] The companion cubes block the laser
 - [x] **Crosshair**
 	- [x] Chenge when portals have been created
 

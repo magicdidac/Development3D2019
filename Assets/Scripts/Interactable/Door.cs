@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Door : Interactable
+public class Door : InteractableObject
 {
-
     [HideInInspector] private Animator anim;
-
-    [HideInInspector] private bool isOpen = false;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
     }
 
-    public override void Interact()
+    private void Update()
     {
-        isOpen = !isOpen;
-        anim.SetBool("Open", isOpen);
+        CheckAllTriggersPositiveOrNegative();
+    }
+
+    public override void InteractPositive()
+    {
+        anim.SetBool("Open", true);
+    }
+    
+    public override void InteractNegative()
+    {
+        anim.SetBool("Open", false);
     }
 }

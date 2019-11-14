@@ -6,21 +6,14 @@ public class DotsPath : Interactable
 {
     [SerializeField] private ConnectPath path = null;
 
-    [HideInInspector] private bool enable = false;
-
-    public override bool CanInteract()
+    public override void InteractPositive()
     {
-        return false;
+        path.Enable();
     }
 
-    public override void Interact()
+    public override void InteractNegative()
     {
-        enable = !enable;
-
-        if (enable)
-            path.Enable();
-        else
-            path.Disable();
-
+        path.Disable();
     }
+
 }

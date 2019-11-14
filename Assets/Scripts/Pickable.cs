@@ -18,14 +18,14 @@ public class Pickable : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (target == null)
             return;
 
         rb.velocity = ((target.position - transform.position) * Time.deltaTime * 1000);
 
-        transform.forward = Vector3.MoveTowards(transform.forward, target.forward, Time.deltaTime * 5);
+        transform.forward = Vector3.MoveTowards(transform.forward, new Vector3(target.forward.x, 0, target.forward.z), Time.deltaTime * 5);
 
         if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {

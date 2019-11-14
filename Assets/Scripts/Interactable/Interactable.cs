@@ -5,8 +5,24 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
 
-    public abstract bool CanInteract();
+    public virtual bool CanInteract()
+    {
+        return false;
+    }
 
-    public abstract void Interact();
+    public virtual void Interact()
+    {
+        throw new System.Exception("This object (" + name + ") has not implemented Interact() function.");
+    }
+
+    public virtual void InteractPositive()
+    {
+        throw new System.Exception("This object (" + name + ") has not implemented InteractPositive() function.");
+    }
+
+    public virtual void InteractNegative()
+    {
+        throw new System.Exception("This object (" + name + ") has not implemented InteractNegative() function.");
+    }
 
 }
