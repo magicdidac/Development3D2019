@@ -29,9 +29,9 @@ We hace to make an Portal clone and it need to have the following features:
 	- [x] Move the cubes with the view
 	- [x] Shoot the cubes
 	- [x] Drop the cubes
-- [ ] **Teleport Cubes**
-	- [ ] Cubes teleports between portals
-	- [ ] Keep the angle, position and velocity between portals
+- [x] **Teleport Cubes**
+	- [x] Cubes teleports between portals
+	- [x] Keep the angle, position and velocity between portals
 - [ ] **Resizing**
 	- [ ] Change the size between 50% and 200%
 	- [ ] Change cubes size
@@ -74,6 +74,10 @@ We hace to make an Portal clone and it need to have the following features:
 - ¿Puedo usar otros assets de portal?
 - ¿Puedo hacer el ascensor?
 - ¿Puedo crear algunas cosas con probuilder? (Hueco para cuando se haga pequeño)
+- ¿Puedo utilizar el Animator en vez de Animation?
+- ¿Los laseres tienen que cruzar el portal?
+- ¿Si tengo un cubo y paso por un portal tengo que llevarmelo y salir con él en el otro lado?
+- ¿Tiene que haber portales que se pongan en el suelo y funcionen?
 
 ## Packages used
 

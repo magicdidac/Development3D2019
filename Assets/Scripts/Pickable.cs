@@ -98,4 +98,36 @@ public class Pickable : MonoBehaviour
         colliding = false;
     }
 
+    public void TeleportToPortal(Portal portal, float offset)
+    {
+        float velocity = rb.velocity.magnitude;
+
+        transform.position = GetOtherPortalPosition(portal, offset);
+
+        Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
+        transform.forward = portal.otherPortal.transform.TransformDirection(direction);
+
+        rb.velocity = transform.forward * velocity;
+
+        portal.otherPortal.showMock = false;
+    }
+
+    private Vector3 GetOtherPortalPosition(Portal portal, float offset)
+    {
+        Vector3 otherForward = portal.otherPortal.transform.forward;
+        Vector3 other = portal.otherPortal.transform.position;
+
+        offset += .01f;
+
+        Vector3 l_Position = portal.transform.InverseTransformPoint(transform.position);
+        Vector3 returnPosition = portal.otherPortal.transform.TransformPoint(l_Position);
+
+        if (!Utilities.IsForwarNearToZero(otherForward.z))
+            returnPosition.z = other.z + (otherForward.z * offset);
+        else if (!Utilities.IsForwarNearToZero(otherForward.x))
+            returnPosition.x = other.x + (otherForward.x * offset);
+
+        return returnPosition;
+    }
+
 }
