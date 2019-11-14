@@ -68,6 +68,13 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Crosshair**
 	- [x] Chenge when portals have been created
 
+## Questions 4 teacher
+
+- ¿Puedo usar el probuilder para hacer los huecos de las puertas?
+- ¿Puedo usar otros assets de portal?
+- ¿Puedo hacer el ascensor?
+- ¿Puedo crear algunas cosas con probuilder? (Hueco para cuando se haga pequeño)
+
 ## Packages used
 
 * ProBuilder
