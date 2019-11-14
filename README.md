@@ -36,18 +36,18 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Change the size between 50% and 200%
 	- [ ] Change cubes size
 	- [ ] Change player size
-- [ ] **Turrets**
-	- [ ] Red laser
-	- [ ] Player dies if touch the laser
-	- [ ] Desactive turrets
-	- [ ] Pick up with the gravity gun
-	- [ ] Dies if touch any type of laser
+- [x] **Turrets**
+	- [x] Red laser
+	- [x] Player dies if touch the laser
+	- [x] Desactive turrets
+	- [x] Pick up with the gravity gun
+	- [x] Dies if touch any type of laser
 
 - [x] **Doors / Buttons**
 	- [x] Open door
 	- [x] Interact with the button to open the door
-- [ ] **Dead Zones**
-	- [ ] When player touches the dead zone, He dies
+- [x] **Dead Zones**
+	- [x] When player touches the dead zone, He dies
 - [ ] **Physic Surfaces**
 	- [ ] Bouncing
 	- [ ] Sliding
@@ -76,3 +76,4 @@ We hace to make an Portal clone and it need to have the following features:
 ## My Own Assets used
 
 * [Simple First Person Controller](http://magicdvstudio.com/assets/simpleFirstPersonController.unitypackage)
+* [Portal Assets](http://magicdvstudio.com/assets/PortalAssets_magicdidac.unitypackage)

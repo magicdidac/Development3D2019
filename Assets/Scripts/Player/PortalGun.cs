@@ -80,7 +80,7 @@ public class PortalGun : MonoBehaviour
                 if (hit.transform.tag.Equals("Pickable"))
                 {
                     pickable = hit.transform.GetComponent<Pickable>();
-                    pickable.SetTarget(objectsTarget);
+                    pickable.Pick(objectsTarget);
                     canCreatePortals = false;
                     return;
                 }
@@ -90,14 +90,14 @@ public class PortalGun : MonoBehaviour
 
         if(!canCreatePortals && Input.GetButtonDown("Fire1"))
         {
-            pickable.SetTarget(objectsTarget);
+            pickable.Throw();
             ResetTarget();
             return;
         }
 
         if (!canCreatePortals && Input.GetButtonDown("Fire2"))
         {
-            pickable.SetTarget(null);
+            pickable.Drop();
             ResetTarget();
             return;
         }

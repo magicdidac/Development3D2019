@@ -8,6 +8,7 @@ TagManager:
   - Printable
   - Pickable
   - Interactable
+  - Kill
   layers:
   - Default
   - TransparentFX

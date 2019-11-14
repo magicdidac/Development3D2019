@@ -7,6 +7,7 @@ public class Pickable : MonoBehaviour
 
     [SerializeField] private float force = 2;
 
+
     [HideInInspector] private Rigidbody rb;
     [HideInInspector] private Transform target = null;
     [HideInInspector] private bool colliding = false;
@@ -22,10 +23,9 @@ public class Pickable : MonoBehaviour
         if (target == null)
             return;
 
-        Vector3 direction = target.position - transform.position;
         rb.velocity = ((target.position - transform.position) * Time.deltaTime * 1000);
 
-        transform.forward = Vector3.MoveTowards(transform.forward, target.forward, 5);
+        transform.forward = Vector3.MoveTowards(transform.forward, target.forward, Time.deltaTime * 5);
 
         if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {
@@ -43,7 +43,23 @@ public class Pickable : MonoBehaviour
 
     }
 
-    public void SetTarget(Transform target)
+    public virtual void Pick(Transform target)
+    {
+        SetTarget(target);
+    }
+
+    public virtual void Throw()
+    {
+        SetTarget(this.target);
+    }
+
+    public virtual void Drop()
+    {
+        SetTarget(null);
+    }
+
+
+    private void SetTarget(Transform target)
     {
         if(this.target == target)
         {

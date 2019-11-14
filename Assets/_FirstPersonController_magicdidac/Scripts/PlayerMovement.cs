@@ -17,10 +17,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
+    [HideInInspector] public bool isDead { get; private set; }
 
 
     private void Update()
     {
+        if (isDead)
+            return;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -72,6 +76,13 @@ public class PlayerMovement : MonoBehaviour
             returnPosition.x = other.x + (otherForward.x * offset);
 
         return returnPosition;
+    }
+
+    public void Dead()
+    {
+        Debug.Log("Dead");
+
+        isDead = true;
     }
 
 }
