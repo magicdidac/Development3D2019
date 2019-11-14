@@ -77,10 +77,17 @@ We hace to make an Portal clone and it need to have the following features:
 
 ## Packages used
 
-* ProBuilder
-* ProGrids
+- ProBuilder
+- ProGrids
 
 ## My Own Assets used
 
-* [Simple First Person Controller](http://magicdvstudio.com/assets/simpleFirstPersonController.unitypackage)
-* [Portal Assets](http://magicdvstudio.com/assets/PortalAssets_magicdidac.unitypackage)
+- [Simple First Person Controller](http://magicdvstudio.com/assets/simpleFirstPersonController.unitypackage)
+- [Portal Assets](http://magicdvstudio.com/assets/PortalAssets_magicdidac.unitypackage)
+
+## See Also
+
+- [Theoretical video about portals](https://www.youtube.com/watch?v=_SmPR5mvH7w) 
+- [Some Portal Stuff Models](https://www.models-resource.com/pc_computer/portal)
+- [Some Portal 2 Stuff Models](https://www.models-resource.com/pc_computer/portal2)
+- [Valve Source Engine Wiki](https://developer.valvesoftware.com/wiki/Main_Page)
