@@ -69,4 +69,16 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void DeletePortals()
+    {
+        bluePortal.DeletePortal();
+        orangePortal.DeletePortal();
+
+        bluePortal = null;
+        orangePortal = null;
+
+        uiManager.ReloadUI();
+
+    }
+
 }

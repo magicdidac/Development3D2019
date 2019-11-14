@@ -7,7 +7,7 @@ We hace to make an Portal clone and it need to have the following features:
 ## "Optional" features
 
 ## CheckList
-
+	### "Mandatory" Features
 - [ ] **Scenario**
 - [x] **Portal Gun**
 	- [x] Create Blue Portal
@@ -42,16 +42,16 @@ We hace to make an Portal clone and it need to have the following features:
 	- [x] Desactive turrets
 	- [x] Pick up with the gravity gun
 	- [x] Dies if touch any type of laser
-
+	### Optionals Features
 - [x] **Doors / Buttons**
 	- [x] Open door
 	- [x] Interact with the button to open the door
 - [x] **Dead Zones**
 	- [x] When player touches the dead zone, He dies
-- [ ] **Physic Surfaces**
-	- [ ] Bouncing
-	- [ ] Sliding
-	- [ ] Destroying
+- [x] **Physic Surfaces**
+	- [x] Bouncing
+	- [x] Sliding
+	- [x] Destroying
 - [ ] **Game Over / Retry**
 	- [ ] Game Over Screen
 	- [ ] Restart the game
@@ -68,16 +68,27 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Crosshair**
 	- [x] Chenge when portals have been created
 
+	### Extra Teacher Features
+- [x] **Teleport with cubes**
+
 ## Questions 4 teacher
 
 - ¿Puedo usar el probuilder para hacer los huecos de las puertas?
+	- No puedes usar probuilder pero si puedes hacer tus propios modelados.
 - ¿Puedo usar otros assets de portal?
+	- Si.
 - ¿Puedo hacer el ascensor?
+	- Si.
 - ¿Puedo crear algunas cosas con probuilder? (Hueco para cuando se haga pequeño)
+	- Lo mismo que en la primera pregunta (No, pero modelados si).
 - ¿Puedo utilizar el Animator en vez de Animation?
+	- Si.
 - ¿Los laseres tienen que cruzar el portal?
+	- No hace falta.
 - ¿Si tengo un cubo y paso por un portal tengo que llevarmelo y salir con él en el otro lado?
+	- Si es necesario.
 - ¿Tiene que haber portales que se pongan en el suelo y funcionen?
+	- No hace falta.
 
 ## Packages used
 

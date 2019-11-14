@@ -9,6 +9,7 @@ TagManager:
   - Pickable
   - Interactable
   - Kill
+  - Reset
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Player
   - Ground
   - Gun
-  - 
+  - Picakble
   - 
   - 
   - 

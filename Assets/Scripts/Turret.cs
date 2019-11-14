@@ -35,11 +35,6 @@ public class Turret : Pickable
         }
     }
 
-    public void Dead()
-    {
-        Destroy(gameObject);
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.GetComponent<Pickable>())

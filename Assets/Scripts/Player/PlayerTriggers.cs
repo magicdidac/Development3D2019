@@ -17,6 +17,10 @@ public class PlayerTriggers : MonoBehaviour
     {
         if (other.tag.Equals("Kill"))
             player.Dead();
+
+        if (other.tag.Equals("Reset"))
+            GameManager.instance.DeletePortals();
+
     }
 
 }

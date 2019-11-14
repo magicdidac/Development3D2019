@@ -48,7 +48,12 @@ public class Portal : MonoBehaviour
         this.otherPortal = otherPortal;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void DeletePortal()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (otherPortal == null)
             return;
@@ -61,6 +66,11 @@ public class Portal : MonoBehaviour
     {
         if (otherPortal == null)
             return;
+
+        if (other.GetComponent<Pickable>())
+        {
+            other.GetComponent<Pickable>().ResetAfterPortalExit();
+        }
 
         this.wallCollider.enabled = true;
         otherPortal.showMock = false;

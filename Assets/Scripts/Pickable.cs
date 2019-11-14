@@ -6,16 +6,23 @@ public class Pickable : MonoBehaviour
 {
 
     [SerializeField] private float force = 2;
+    [SerializeField] private float minVelocity = 10f;
 
 
     [HideInInspector] private Rigidbody rb;
     [HideInInspector] private Transform target = null;
     [HideInInspector] private bool colliding = false;
     [HideInInspector] private bool canDrop = true;
+    [HideInInspector] private Vector3 lastFrameVelocity;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        lastFrameVelocity = rb.velocity;
     }
 
     protected virtual void FixedUpdate()
@@ -29,58 +36,38 @@ public class Pickable : MonoBehaviour
 
         if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {
-            SetTarget(null);
+            this.target = null;
             GameManager.instance.player.gun.ResetTarget();
         }
 
     }
 
-    private void GetOutOfHere()
-    {
-        SetTarget(null);
-
-        rb.AddForce(transform.forward * force, ForceMode.Impulse);
-
-    }
-
     public virtual void Pick(Transform target)
     {
-        SetTarget(target);
+        canDrop = false;
+        Invoke("ResetCanDrop", .5f);
+        rb.useGravity = false;
+        rb.angularDrag = 3;
+
+        this.target = target;
     }
 
     public virtual void Throw()
     {
-        SetTarget(this.target);
+        rb.AddForce(target.forward * force, ForceMode.Impulse);
+
+        rb.useGravity = true;
+        rb.angularDrag = .05f;
+
+        this.target = null;
     }
 
     public virtual void Drop()
     {
-        SetTarget(null);
-    }
+        rb.useGravity = true;
+        rb.angularDrag = .05f;
 
-
-    private void SetTarget(Transform target)
-    {
-        if(this.target == target)
-        {
-            GetOutOfHere();
-            return;
-        }
-
-        if(target != null)
-        {
-            canDrop = false;
-            Invoke("ResetCanDrop", .5f);
-            this.target = target;
-            rb.useGravity = false;
-            rb.angularDrag = 3;
-        }
-        else
-        {
-            this.target = null;
-            rb.useGravity = true;
-            rb.angularDrag = .05f;
-        }
+        this.target = null;
     }
 
     private void ResetCanDrop()
@@ -98,8 +85,35 @@ public class Pickable : MonoBehaviour
         colliding = false;
     }
 
+    public void Bounce(Vector3 collisionNormal)
+    {
+        var speed = lastFrameVelocity.magnitude;
+        var direction = Vector3.Reflect(lastFrameVelocity.normalized, collisionNormal);
+
+        rb.velocity = direction * Mathf.Max(speed, minVelocity);
+    }
+
+    public virtual void Dead()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Reset"))
+        {
+            Dead();
+        }
+    }
+
     public void TeleportToPortal(Portal portal, float offset)
     {
+        if (target != null)
+        {
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Gun");
+            return;
+        }
+
         float velocity = rb.velocity.magnitude;
 
         transform.position = GetOtherPortalPosition(portal, offset);
@@ -130,4 +144,9 @@ public class Pickable : MonoBehaviour
         return returnPosition;
     }
 
+
+    public void ResetAfterPortalExit()
+    {
+        transform.GetChild(0).gameObject.layer = 0;
+    }
 }

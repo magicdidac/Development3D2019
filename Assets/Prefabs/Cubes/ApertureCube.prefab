@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7402931857751573021}
   - component: {fileID: 7402931857751573022}
   - component: {fileID: 9059398914070663336}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ApertureCube
   m_TagString: Pickable
   m_Icon: {fileID: 0}
@@ -154,3 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 15
+  minVelocity: 0

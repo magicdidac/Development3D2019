@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4509921283350723716}
   - component: {fileID: 4509921283350723723}
   - component: {fileID: 4509921283350723721}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Turret
   m_TagString: Pickable
   m_Icon: {fileID: 0}
@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 15
+  minVelocity: 10
   lineR: {fileID: 4509921283523284822}
 --- !u!1 &4509921283523284823
 GameObject:

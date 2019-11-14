@@ -75,7 +75,7 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5))
+            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, LayerMask.NameToLayer("Pickable")))
             {
                 if (hit.transform.tag.Equals("Pickable"))
                 {
@@ -92,18 +92,22 @@ public class PortalGun : MonoBehaviour
         {
             pickable.Throw();
             ResetTarget();
-            return;
+
         }
 
         if (!canCreatePortals && Input.GetButtonDown("Fire2"))
         {
             pickable.Drop();
             ResetTarget();
-            return;
         }
 
         if (!canCreatePortals)
             return;
+
+        if (Input.GetButtonDown("DeletePortals"))
+        {
+            gm.DeletePortals();
+        }
 
         if (Input.GetButtonUp("Fire1"))
         {
@@ -195,6 +199,16 @@ public class PortalGun : MonoBehaviour
 
         checker.transform.position = hit.point;
         checker.transform.forward = hit.normal;
+    }
+
+    public void ChangePickablePosition()
+    {
+        if(pickable != null)
+        {
+            pickable.transform.position = objectsTarget.position;
+            pickable.GetComponent<Collider>().enabled = true;
+            pickable.gameObject.layer = 0;
+        }
     }
 
 }

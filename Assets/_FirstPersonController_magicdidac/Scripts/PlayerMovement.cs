@@ -56,6 +56,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
         transform.forward = portal.otherPortal.transform.TransformDirection(direction);
 
+
+        gun.ChangePickablePosition();
+
         portal.otherPortal.showMock = false;
 
     }
