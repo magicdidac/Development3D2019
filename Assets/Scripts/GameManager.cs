@@ -71,8 +71,10 @@ public class GameManager : MonoBehaviour
 
     public void DeletePortals()
     {
-        bluePortal.DeletePortal();
-        orangePortal.DeletePortal();
+        if(bluePortal != null)
+            bluePortal.DeletePortal();
+        if(orangePortal != null)
+            orangePortal.DeletePortal();
 
         bluePortal = null;
         orangePortal = null;

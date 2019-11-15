@@ -18,10 +18,16 @@ public class Portal : MonoBehaviour
     [HideInInspector] private Transform mockTransform;
     [HideInInspector] public bool showMock = false;
 
+    [HideInInspector] public float portalSize = 1;
+
     private void Start()
     {
         gm = GameManager.instance;
         playerCamera = Camera.main.transform;
+
+        Vector3 lP = trigger.transform.localPosition;
+
+        trigger.transform.localPosition = new Vector3(lP.x, lP.y, .2f / portalSize);
     }
 
     /*private void ChangeMock()

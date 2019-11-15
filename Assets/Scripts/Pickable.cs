@@ -15,8 +15,13 @@ public class Pickable : MonoBehaviour
     [HideInInspector] private bool canDrop = true;
     [HideInInspector] private Vector3 lastFrameVelocity;
 
+    [HideInInspector] private float size = 1;
+    [HideInInspector] private Vector3 initialScale;
+
     private void Start()
     {
+        initialScale = transform.localScale;
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -120,6 +125,16 @@ public class Pickable : MonoBehaviour
 
         Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
         transform.forward = portal.otherPortal.transform.TransformDirection(direction);
+
+        size = size * (portal.otherPortal.portalSize / portal.portalSize);
+
+        if (size > 2)
+            size = 2;
+
+        if (size < .5f)
+            size = .5f;
+
+        transform.localScale = initialScale * size;
 
         rb.velocity = transform.forward * velocity;
 

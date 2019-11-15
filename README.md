@@ -7,7 +7,8 @@ We hace to make an Portal clone and it need to have the following features:
 ## "Optional" features
 
 ## CheckList
-	### "Mandatory" Features
+
+### "Mandatory" Features
 - [ ] **Scenario**
 - [x] **Portal Gun**
 	- [x] Create Blue Portal
@@ -32,17 +33,18 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Teleport Cubes**
 	- [x] Cubes teleports between portals
 	- [x] Keep the angle, position and velocity between portals
-- [ ] **Resizing**
-	- [ ] Change the size between 50% and 200%
-	- [ ] Change cubes size
-	- [ ] Change player size
+- [x] **Resizing**
+	- [x] Change the size between 50% and 200%
+	- [x] Change cubes size
+	- [x] Change player size
 - [x] **Turrets**
 	- [x] Red laser
 	- [x] Player dies if touch the laser
 	- [x] Desactive turrets
 	- [x] Pick up with the gravity gun
 	- [x] Dies if touch any type of laser
-	### Optionals Features
+
+### Optionals Features
 - [x] **Doors / Buttons**
 	- [x] Open door
 	- [x] Interact with the button to open the door
@@ -68,7 +70,7 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Crosshair**
 	- [x] Chenge when portals have been created
 
-	### Extra Teacher Features
+### Extra Teacher Features
 - [x] **Teleport with cubes**
 
 ## Questions 4 teacher

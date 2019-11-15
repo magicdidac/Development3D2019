@@ -12,7 +12,7 @@ public class PortalGun : MonoBehaviour
     [SerializeField] private Transform objectsTarget = null;
 
     [HideInInspector] private GameManager gm;
-    [HideInInspector] private Transform preview;
+    [HideInInspector] private PortalPreview preview;
     [HideInInspector] private PortalChecker checker;
     [HideInInspector] private bool canCreatePortals = true;
 
@@ -75,9 +75,11 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, LayerMask.NameToLayer("Pickable")))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, LayerMask.GetMask("Pickable")))
             {
-                if (hit.transform.tag.Equals("Pickable"))
+                Debug.Log(hit.transform.name);
+
+                if (hit.transform.GetComponent<Pickable>())
                 {
                     pickable = hit.transform.GetComponent<Pickable>();
                     pickable.Pick(objectsTarget);
@@ -117,7 +119,10 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
-                    gm.ChangeBluePortal(CreatePortal(bluePortalPrefab, hit), hit.transform.GetComponent<Collider>());
+                    gm.ChangeBluePortal(CreatePortal(bluePortalPrefab, hit, preview.size), hit.transform.GetComponent<Collider>());
+
+                    if (preview != null)
+                        Destroy(preview.gameObject);
                 }
             }
 
@@ -131,7 +136,11 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
-                    gm.ChangeOrangePortal(CreatePortal(orangePortalPrefab, hit), hit.transform.GetComponent<Collider>());
+                    gm.ChangeOrangePortal(CreatePortal(orangePortalPrefab, hit, preview.size), hit.transform.GetComponent<Collider>());
+
+                    if (preview != null)
+                        Destroy(preview.gameObject);
+
                 }
             }
 
@@ -156,19 +165,15 @@ public class PortalGun : MonoBehaviour
         }
         
         if(preview == null)
-            preview = Instantiate(previewPrefab, hit.point, Quaternion.identity).transform;
+            preview = Instantiate(previewPrefab, hit.point, Quaternion.identity).GetComponent<PortalPreview>();
 
-        preview.position = hit.point;
-        preview.forward = hit.normal;
-
+        preview.transform.position = hit.point;
+        preview.transform.forward = hit.normal;
 
     }
 
-    private Portal CreatePortal(GameObject portalPrefab, RaycastHit hit)
+    private Portal CreatePortal(GameObject portalPrefab, RaycastHit hit, float size)
     {
-        if (preview != null)
-            Destroy(preview.gameObject);
-
         CreateChecker(hit);
 
         if (!checker.CanPlace())
@@ -184,10 +189,14 @@ public class PortalGun : MonoBehaviour
 
         GameObject portal = Instantiate(portalPrefab, hit.point, Quaternion.identity);
 
+
+        portal.transform.localScale = portal.transform.localScale * size;
         portal.transform.forward = hit.normal;
 
         if (hit.normal.y != 0)
             portal.transform.eulerAngles += Vector3.forward * gm.player.transform.eulerAngles.y;
+
+        portal.GetComponent<Portal>().portalSize = size;
 
         return portal.GetComponent<Portal>();
     }

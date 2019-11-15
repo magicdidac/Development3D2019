@@ -19,6 +19,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     [HideInInspector] public bool isDead { get; private set; }
 
+    [HideInInspector] private float size = 1;
+    [HideInInspector] private Vector3 initialScale;
+
+    private void Start()
+    {
+        initialScale = transform.localScale;
+    }
 
     private void Update()
     {
@@ -56,6 +63,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
         transform.forward = portal.otherPortal.transform.TransformDirection(direction);
 
+        size = size * (portal.otherPortal.portalSize / portal.portalSize);
+
+        if (size > 2)
+            size = 2;
+
+        if (size < .5f)
+            size = .5f;
+
+        transform.localScale = initialScale * size;
 
         gun.ChangePickablePosition();
 
