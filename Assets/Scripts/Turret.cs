@@ -9,6 +9,14 @@ public class Turret : Pickable
 
     [HideInInspector] private bool isActive = true;
 
+    [HideInInspector] private GameManager gm;
+
+    protected override void Start()
+    {
+        base.Start();
+        gm = GameManager.instance;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -27,7 +35,7 @@ public class Turret : Pickable
             lineR.SetPosition(1, hit.point);
 
             if (hit.transform.GetComponent<PlayerMovement>())
-                hit.transform.GetComponent<PlayerMovement>().Dead();
+                GameManager.instance.Dead();
 
             if (hit.transform.GetComponent<Turret>())
                 hit.transform.GetComponent<Turret>().Dead();
@@ -41,5 +49,32 @@ public class Turret : Pickable
             isActive = false;
 
     }
+
+    public override void Pick(Transform target)
+    {
+        base.Pick(target);
+
+        gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Pick", transform);
+
+    }
+
+    public override void Drop()
+    {
+        base.Drop();
+        gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Drop", transform);
+    }
+
+    public override void Throw()
+    {
+        base.Throw();
+        gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Throw", transform);
+    }
+
+    public override void Dead()
+    {
+        base.Dead();
+        gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Die", transform.position);
+    }
+
 
 }

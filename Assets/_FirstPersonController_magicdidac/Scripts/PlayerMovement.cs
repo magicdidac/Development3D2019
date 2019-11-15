@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         initialScale = transform.localScale;
+        GameManager.instance.player = this;
     }
 
     private void Update()
@@ -74,6 +75,8 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = initialScale * size;
 
         gun.ChangePickablePosition();
+
+        GameManager.instance.audioManager.Play("Portal-Cross");
 
         portal.otherPortal.showMock = false;
 

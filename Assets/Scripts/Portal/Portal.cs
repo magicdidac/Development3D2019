@@ -28,6 +28,9 @@ public class Portal : MonoBehaviour
         Vector3 lP = trigger.transform.localPosition;
 
         trigger.transform.localPosition = new Vector3(lP.x, lP.y, .2f / portalSize);
+
+        gm.audioManager.PlayAtPosition("Portal-Open", transform);
+
     }
 
     /*private void ChangeMock()

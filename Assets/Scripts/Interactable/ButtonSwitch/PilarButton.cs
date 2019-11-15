@@ -15,9 +15,16 @@ public class PilarButton : ButtonSwitch
 
     public override void Interact()
     {
+        base.Interact();
+    }
+
+    public override void InteractPositive()
+    {
         lastTime = Time.time;
 
         //TODO: Make Animation
+
+        GameManager.instance.audioManager.PlayAtPosition("Switch-InteractPositive", transform);
 
         isActive = true;
 
@@ -29,11 +36,16 @@ public class PilarButton : ButtonSwitch
     public override void InteractNegative()
     {
         isActive = false;
+
+        //TODO: Make Animation
+
+        GameManager.instance.audioManager.PlayAtPosition("Switch-InteractNegative", transform);
     }
 
     private void DisableDots()
     {
         dotsPath.InteractNegative();
+        InteractNegative();
     }
 
 }

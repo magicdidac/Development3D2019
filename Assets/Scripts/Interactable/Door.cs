@@ -18,11 +18,20 @@ public class Door : InteractableObject
 
     public override void InteractPositive()
     {
+        if (anim.GetBool("Open"))
+            return;
+
+        GameManager.instance.audioManager.PlayAtPosition("Door-Open", transform);
+
         anim.SetBool("Open", true);
     }
     
     public override void InteractNegative()
     {
+        if (!anim.GetBool("Open"))
+            return;
+
+        GameManager.instance.audioManager.PlayAtPosition("Door-Close", transform);
         anim.SetBool("Open", false);
     }
 }

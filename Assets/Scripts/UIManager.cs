@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite bothCrosshair = null;
     [Space]
     [SerializeField] private Image crosshair = null;
+    [SerializeField] private GameObject DeadMenu = null;
 
     [HideInInspector] private GameManager gm;
 
@@ -37,6 +38,22 @@ public class UIManager : MonoBehaviour
             crosshair.sprite = orangeCrosshair;
         else
             crosshair.sprite = bothCrosshair;
+    }
+
+    public void Dead()
+    {
+        DeadMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void ReviveButton()
+    {
+        gm.Revive();
+    }
+
+    public void ExitGameButton()
+    {
+        gm.ExitGame();
     }
 
 }

@@ -15,7 +15,7 @@ public static class Laser
             lineR.SetPosition(1, hit.point);
 
             if (hit.transform.GetComponent<PlayerMovement>())
-                hit.transform.GetComponent<PlayerMovement>().Dead();
+                GameManager.instance.Dead();
 
             if (hit.transform.GetComponent<Turret>())
                 hit.transform.GetComponent<Turret>().Dead();

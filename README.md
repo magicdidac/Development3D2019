@@ -54,13 +54,13 @@ We hace to make an Portal clone and it need to have the following features:
 	- [x] Bouncing
 	- [x] Sliding
 	- [x] Destroying
-- [ ] **Game Over / Retry**
-	- [ ] Game Over Screen
-	- [ ] Restart the game
+- [x] **Game Over / Retry**
+	- [x] Game Over Screen
+	- [x] Restart the game
 - [ ] **Checkpoint**
 	- [ ] Save checkpoint
 	- [ ] Restart from the checkpoint
-- [ ] **Sound**
+- [x] **Sound**
 - [x] **Refraction Cube**
 	- [x] Shoot laser from wall
 	- [x] Refract the laser with the cube
@@ -72,6 +72,14 @@ We hace to make an Portal clone and it need to have the following features:
 
 ### Extra Teacher Features
 - [x] **Teleport with cubes**
+
+### My Own Features
+- [ ] **Add more sounds**
+- [ ] **UI**
+	- [ ] Make a beautiful main menu
+	- [ ] Make a beautiful dead menu
+	- [ ] Make a beautiful pause menu
+	- [ ] Make a beautiful options menu
 
 ## Questions 4 teacher
 
@@ -108,3 +116,7 @@ We hace to make an Portal clone and it need to have the following features:
 - [Some Portal Stuff Models](https://www.models-resource.com/pc_computer/portal)
 - [Some Portal 2 Stuff Models](https://www.models-resource.com/pc_computer/portal2)
 - [Valve Source Engine Wiki](https://developer.valvesoftware.com/wiki/Main_Page)
+- [Portal Dialoges and Music](http://www.portal2sounds.com/)
+- [Some Portal Sounds](https://www.sounds-resource.com/pc_computer/portal/)
+- [Some Portal 2 Sounds](https://www.sounds-resource.com/pc_computer/portal2/)
+- [How to get Portal and Portal 2 sounds from game files](https://gaming.stackexchange.com/questions/21445/how-do-i-extract-portal-2-sound-effects)

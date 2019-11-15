@@ -18,7 +18,9 @@ public class Pickable : MonoBehaviour
     [HideInInspector] private float size = 1;
     [HideInInspector] private Vector3 initialScale;
 
-    private void Start()
+    [HideInInspector] private Vector3 forwardOffset;
+
+    protected virtual void Start()
     {
         initialScale = transform.localScale;
 
@@ -37,11 +39,11 @@ public class Pickable : MonoBehaviour
 
         rb.velocity = ((target.position - transform.position) * Time.deltaTime * 1000);
 
-        transform.forward = Vector3.MoveTowards(transform.forward, new Vector3(target.forward.x, 0, target.forward.z), Time.deltaTime * 5);
+        transform.forward = Vector3.MoveTowards(transform.forward, new Vector3(target.forward.x, 0,target.forward.z), Time.deltaTime * 5);
 
         if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {
-            this.target = null;
+            Drop();
             GameManager.instance.player.gun.ResetTarget();
         }
 
@@ -53,6 +55,8 @@ public class Pickable : MonoBehaviour
         Invoke("ResetCanDrop", .5f);
         rb.useGravity = false;
         rb.angularDrag = 3;
+
+        forwardOffset = transform.forward;
 
         this.target = target;
     }
@@ -100,6 +104,8 @@ public class Pickable : MonoBehaviour
 
     public virtual void Dead()
     {
+        GameManager.instance.player.gun.ResetTarget();
+
         Destroy(gameObject);
     }
 

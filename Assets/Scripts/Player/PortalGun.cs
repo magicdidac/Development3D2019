@@ -10,6 +10,7 @@ public class PortalGun : MonoBehaviour
     [SerializeField] private GameObject bluePreview = null;
     [SerializeField] private GameObject orangePreview = null;
     [SerializeField] private Transform objectsTarget = null;
+    [SerializeField] private PlayerMovement player = null;
 
     [HideInInspector] private GameManager gm;
     [HideInInspector] private PortalPreview preview;
@@ -25,6 +26,9 @@ public class PortalGun : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (player.isDead)
+            return;
+
         if (!canCreatePortals)
             return;
 
@@ -54,6 +58,8 @@ public class PortalGun : MonoBehaviour
 
     private void Update()
     {
+        if (player.isDead)
+            return;
 
         if (Input.GetButtonDown("Interact"))
         {
@@ -65,10 +71,14 @@ public class PortalGun : MonoBehaviour
                     Interactable i = hit.transform.GetComponent<Interactable>();
                     if (i.CanInteract())
                     {
-                        i.Interact();
+                        i.InteractPositive();
+                        return;
                     }
                 }
             }
+
+            gm.audioManager.Play("PortalGun-InteractFailed");
+
         }
 
         if (canCreatePortals && Input.GetButtonDown("Fire1"))
@@ -77,7 +87,6 @@ public class PortalGun : MonoBehaviour
 
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, LayerMask.GetMask("Pickable")))
             {
-                Debug.Log(hit.transform.name);
 
                 if (hit.transform.GetComponent<Pickable>())
                 {
@@ -119,7 +128,17 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
-                    gm.ChangeBluePortal(CreatePortal(bluePortalPrefab, hit, preview.size), hit.transform.GetComponent<Collider>());
+                    if (preview == null)
+                        return;
+
+                    Portal newPortal = CreatePortal(bluePortalPrefab, hit, preview.size);
+
+                    if (newPortal == null)
+                        return;
+
+                    gm.ChangeBluePortal(newPortal, hit.transform.GetComponent<Collider>());
+
+                    gm.audioManager.Play("PortalGun-ShootBlue");
 
                     if (preview != null)
                         Destroy(preview.gameObject);
@@ -136,7 +155,17 @@ public class PortalGun : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
-                    gm.ChangeOrangePortal(CreatePortal(orangePortalPrefab, hit, preview.size), hit.transform.GetComponent<Collider>());
+                    if (preview == null)
+                        return;
+
+                    Portal newPortal = CreatePortal(orangePortalPrefab, hit, preview.size);
+
+                    if (newPortal == null)
+                        return;
+
+                    gm.ChangeOrangePortal(newPortal, hit.transform.GetComponent<Collider>());
+
+                    gm.audioManager.Play("PortalGun-ShootOrange");
 
                     if (preview != null)
                         Destroy(preview.gameObject);

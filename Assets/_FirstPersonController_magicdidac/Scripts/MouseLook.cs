@@ -7,6 +7,7 @@ public class MouseLook : MonoBehaviour
 
     [SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private Transform playerBody = null;
+    [SerializeField] private PlayerMovement player = null;
 
     [HideInInspector] private float xRotation = 0f;
 
@@ -17,6 +18,9 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
+        if (player.isDead)
+            return;
+
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 

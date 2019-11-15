@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
     [HideInInspector] public static GameManager instance { get; private set; }
 
-    [SerializeField] public PlayerMovement player = null;
+    [HideInInspector] public PlayerMovement player = null;
 
     [HideInInspector] public Portal bluePortal { get; private set; }
     [HideInInspector] public Portal orangePortal { get; private set; }
     [HideInInspector] public UIManager uiManager;
+    [HideInInspector] public AudioManager audioManager;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void ChangeBluePortal(Portal newPortal, Collider col)
@@ -81,6 +84,22 @@ public class GameManager : MonoBehaviour
 
         uiManager.ReloadUI();
 
+    }
+
+    public void Dead()
+    {
+        player.Dead();
+        uiManager.Dead();
+    }
+
+    public void Revive()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }
