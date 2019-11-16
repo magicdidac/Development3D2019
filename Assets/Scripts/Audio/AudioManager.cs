@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     [Space]
     [SerializeField] private List<SoundCollections> soundCollections = new List<SoundCollections>();
 
-    private void Start()
+    private void OnEnable()
     {
         gm = GameManager.instance;
         gm.audioManager = this;

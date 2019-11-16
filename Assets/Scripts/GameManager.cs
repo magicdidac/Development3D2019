@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         if (instance != null)
+        {
             Destroy(gameObject);
+            return;
+        }
 
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -100,6 +103,11 @@ public class GameManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void GoToNextRoom()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
 
 }

@@ -75,11 +75,25 @@ We hace to make an Portal clone and it need to have the following features:
 
 ### My Own Features
 - [ ] **Add more sounds**
+	- [ ] Walk sounds
+	- [ ] Jump sounds
 - [ ] **UI**
 	- [ ] Make a beautiful main menu
 	- [ ] Make a beautiful dead menu
 	- [ ] Make a beautiful pause menu
 	- [ ] Make a beautiful options menu
+- [ ] **Animations**
+	- [ ] Ground button animations
+	- [ ] Switch animations
+	- [ ] Gun animations
+- [ ] **Credits**
+- [ ] **Radio**
+- [ ] **Decorative stuff**
+- [ ] **More models**
+	- [ ] Dispenser model
+	- [ ] Destroying wall model
+- [ ] **Pickables destroy**
+- [ ] **Fix laser reciver**
 
 ## Questions 4 teacher
 
