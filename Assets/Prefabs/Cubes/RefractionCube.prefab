@@ -140,6 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 15
+  minVelocity: 10
+  anim: {fileID: 7945442059007319778}
   lineR: {fileID: 8210465417710751421}
   active: 0
 --- !u!1001 &7680552862234310985
@@ -246,6 +248,12 @@ GameObject:
 --- !u!4 &876708171360598870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7402931857751573023, guid: 9e26ecdf855a4874f9598582666fda40,
+    type: 3}
+  m_PrefabInstance: {fileID: 7680552862234310985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7945442059007319778 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 348236593653458859, guid: 9e26ecdf855a4874f9598582666fda40,
     type: 3}
   m_PrefabInstance: {fileID: 7680552862234310985}
   m_PrefabAsset: {fileID: 0}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Turret : Pickable
 {
@@ -46,14 +47,16 @@ public class Turret : Pickable
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.GetComponent<Pickable>())
+        {
+            gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Die", transform.position);
             isActive = false;
+        }
 
     }
 
     public override void Pick(Transform target)
     {
         base.Pick(target);
-
         gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Pick", transform);
 
     }
@@ -73,6 +76,8 @@ public class Turret : Pickable
     public override void Dead()
     {
         base.Dead();
+        Destroy(transform.GetComponentInChildren<AudioSource>().gameObject);
+        isActive = false;
         gm.audioManager.PlaySoundOfCollectionAtPosition("Turret-Die", transform.position);
     }
 

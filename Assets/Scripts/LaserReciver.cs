@@ -16,20 +16,22 @@ public class LaserReciver : ButtonSwitch
         active = false;
     }
 
-    private void LateUpdate()
-    {
-        
-    }
-
     public override void InteractPositive()
     {
+        if (isActive)
+            return;
+
         dotsPath.InteractPositive();
+        GameManager.instance.audioManager.PlayAtPosition("Button-InteractPositive", transform);
         isActive = true;
     }
 
     public override void InteractNegative()
     {
+        if (!isActive)
+            return;
         dotsPath.InteractNegative();
+        GameManager.instance.audioManager.PlayAtPosition("Button-InteractNegative", transform);
         isActive = false;
     }
 

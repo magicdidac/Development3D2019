@@ -176,9 +176,18 @@ public class PortalGun : MonoBehaviour
         }
     }
 
-    public void ResetTarget()
+    public void ResetTarget(Pickable pickable)
     {
-        pickable = null;
+        if (this.pickable != pickable)
+            return;
+
+        this.pickable = null;
+        canCreatePortals = true;
+    }
+
+    private void ResetTarget()
+    {
+        this.pickable = null;
         canCreatePortals = true;
     }
 

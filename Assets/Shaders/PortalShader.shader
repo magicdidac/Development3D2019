@@ -8,7 +8,7 @@
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Geometry " "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Lighting Off
 		Cull Back
 		ZWrite On

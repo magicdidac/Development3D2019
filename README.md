@@ -78,22 +78,23 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Walk sounds
 	- [ ] Jump sounds
 - [ ] **UI**
-	- [ ] Make a beautiful main menu
+	- [x] Make a beautiful main menu
 	- [ ] Make a beautiful dead menu
 	- [ ] Make a beautiful pause menu
 	- [ ] Make a beautiful options menu
 - [ ] **Animations**
-	- [ ] Ground button animations
-	- [ ] Switch animations
+	- [x] Ground button animations
+	- [x] Switch animations
 	- [ ] Gun animations
 - [ ] **Credits**
-- [ ] **Radio**
+- [x] **Radio**
 - [ ] **Decorative stuff**
 - [ ] **More models**
 	- [ ] Dispenser model
 	- [ ] Destroying wall model
-- [ ] **Pickables destroy**
-- [ ] **Fix laser reciver**
+- [x] **Pickables destroy**
+- [ ] **Fix laser reciver ¿?**
+- [ ] **Fix camera depth only**
 
 ## Questions 4 teacher
 
@@ -134,3 +135,4 @@ We hace to make an Portal clone and it need to have the following features:
 - [Some Portal Sounds](https://www.sounds-resource.com/pc_computer/portal/)
 - [Some Portal 2 Sounds](https://www.sounds-resource.com/pc_computer/portal2/)
 - [How to get Portal and Portal 2 sounds from game files](https://gaming.stackexchange.com/questions/21445/how-do-i-extract-portal-2-sound-effects)
+- [How to do a dissolve shader](https://www.youtube.com/watch?v=taMp1g1pBeE)

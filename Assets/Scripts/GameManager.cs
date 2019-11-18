@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
 
     public void DeletePortals()
     {
+        audioManager.Play("PortalGun-Clear");
+
         if(bluePortal != null)
             bluePortal.DeletePortal();
         if(orangePortal != null)

@@ -7,6 +7,8 @@ public class CubeDispenser : InteractableObject
     [SerializeField] private GameObject cube = null;
     [SerializeField] private Transform spawnPoint = null;
 
+    [HideInInspector] private Pickable cubeInstance = null;
+
     private void Update()
     {
         CheckAllTriggers();
@@ -14,7 +16,12 @@ public class CubeDispenser : InteractableObject
 
     public override void Interact()
     {
-        Instantiate(cube, spawnPoint.position, Quaternion.identity);
+        if(cubeInstance != null)
+        {
+            cubeInstance.Dead();
+        }
+
+        cubeInstance = Instantiate(cube, spawnPoint.position, Quaternion.identity).GetComponent<Pickable>();
 
         DeactivateTriggers();
 

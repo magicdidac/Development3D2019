@@ -7,6 +7,12 @@ public class PilarButton : ButtonSwitch
     [SerializeField] private float waitTime = .5f;
 
     [HideInInspector] private float lastTime = 0;
+    [HideInInspector] private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     public override bool CanInteract()
     {
@@ -22,7 +28,7 @@ public class PilarButton : ButtonSwitch
     {
         lastTime = Time.time;
 
-        //TODO: Make Animation
+        anim.SetBool("isDown", true);
 
         GameManager.instance.audioManager.PlayAtPosition("Switch-InteractPositive", transform);
 
@@ -37,7 +43,7 @@ public class PilarButton : ButtonSwitch
     {
         isActive = false;
 
-        //TODO: Make Animation
+        anim.SetBool("isDown", false);
 
         GameManager.instance.audioManager.PlayAtPosition("Switch-InteractNegative", transform);
     }

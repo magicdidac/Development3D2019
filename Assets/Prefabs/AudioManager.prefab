@@ -130,6 +130,18 @@ MonoBehaviour:
     is3D: 0
     loop: 0
     source: {fileID: 0}
+  - name: Pickable-Dead
+    clip: {fileID: 8300000, guid: 64206ec27088bb945b1be00185c28b4b, type: 3}
+    volume: 0.5
+    is3D: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PortalGun-Clear
+    clip: {fileID: 8300000, guid: 1b5025cb745852745b853fbbbd079c3a, type: 3}
+    volume: 0.75
+    is3D: 0
+    loop: 0
+    source: {fileID: 0}
   soundCollections:
   - name: Turret-Pick
     volume: 1

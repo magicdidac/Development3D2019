@@ -10,6 +10,7 @@ public class Pickable : MonoBehaviour
 
 
     [HideInInspector] private Rigidbody rb;
+    [HideInInspector] private Animator anim;
     [HideInInspector] private Transform target = null;
     [HideInInspector] private bool colliding = false;
     [HideInInspector] private bool canDrop = true;
@@ -25,6 +26,7 @@ public class Pickable : MonoBehaviour
         initialScale = transform.localScale;
 
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -44,7 +46,7 @@ public class Pickable : MonoBehaviour
         if (canDrop && colliding && Vector3.Distance(target.position, transform.position) > 2)
         {
             Drop();
-            GameManager.instance.player.gun.ResetTarget();
+            GameManager.instance.player.gun.ResetTarget(this);
         }
 
     }
@@ -104,8 +106,22 @@ public class Pickable : MonoBehaviour
 
     public virtual void Dead()
     {
-        GameManager.instance.player.gun.ResetTarget();
+        Drop();
 
+        GameManager.instance.player.gun.ResetTarget(this);
+
+        rb.useGravity = false;
+
+        rb.velocity = rb.velocity.normalized;
+
+        GetComponent<Collider>().enabled = false;
+        anim.SetTrigger("Change");
+
+        GameManager.instance.audioManager.PlayAtPosition("Pickable-Dead", transform);
+    }
+
+    public void DestroyPickable()
+    {
         Destroy(gameObject);
     }
 
