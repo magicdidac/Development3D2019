@@ -51,4 +51,15 @@ public abstract class InteractableObject : Interactable
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        foreach(ButtonSwitch b in triggers)
+        {
+            if (b != null)
+            {
+                Gizmos.DrawLine(transform.position, b.transform.position);
+            }
+        }
+    }
+
 }

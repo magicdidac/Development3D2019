@@ -75,4 +75,11 @@ public class Elevator : MonoBehaviour
 
     }
 
+    private void OnDrawGizmos()
+    {
+        if (nextElevatorTransform != null)
+            Gizmos.DrawLine(transform.position, nextElevatorTransform.position);
+
+    }
+
 }

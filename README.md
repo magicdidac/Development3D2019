@@ -9,7 +9,7 @@ We hace to make an Portal clone and it need to have the following features:
 ## CheckList
 
 ### "Mandatory" Features
-- [ ] **Scenario**
+- [x] **Scenario**
 - [x] **Portal Gun**
 	- [x] Create Blue Portal
 	- [x] Create Orange Portal
@@ -57,9 +57,9 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Game Over / Retry**
 	- [x] Game Over Screen
 	- [x] Restart the game
-- [ ] **Checkpoint**
-	- [ ] Save checkpoint
-	- [ ] Restart from the checkpoint
+- [x] **Checkpoint**
+	- [x] Save checkpoint
+	- [x] Restart from the checkpoint
 - [x] **Sound**
 - [x] **Refraction Cube**
 	- [x] Shoot laser from wall
@@ -93,7 +93,7 @@ We hace to make an Portal clone and it need to have the following features:
 	- [ ] Dispenser model
 	- [x] Destroying wall model shader
 - [x] **Pickables destroy beautiful**
-- [ ] **Fix laser reciver ¿?**
+- [x] **Fix laser reciver ¿?**
 - [ ] **Fix camera depth only**
 - [x] **Elevator**
 

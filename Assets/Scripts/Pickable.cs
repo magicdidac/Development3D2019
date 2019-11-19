@@ -141,7 +141,7 @@ public class Pickable : MonoBehaviour
             return;
         }
 
-        float velocity = rb.velocity.magnitude;
+        Vector3 velocity = rb.velocity;
 
         transform.position = GetOtherPortalPosition(portal, offset);
 
@@ -158,7 +158,8 @@ public class Pickable : MonoBehaviour
 
         transform.localScale = initialScale * size;
 
-        rb.velocity = transform.forward * velocity;
+        Vector3 dir = portal.transform.InverseTransformDirection(-velocity);
+        rb.velocity = portal.otherPortal.transform.TransformDirection(dir);
 
         portal.otherPortal.showMock = false;
     }

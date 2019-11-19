@@ -5,9 +5,16 @@ using UnityEngine;
 public class Radio : MonoBehaviour
 {
 
-    private void Start()
+    [SerializeField] private string song = "Song-Radio";
+    [HideInInspector] private bool played = false;
+
+    private void Update()
     {
-        GameManager.instance.audioManager.PlayAtPosition("Song-Radio", transform);
+        if (!played)
+        {
+            GameManager.instance.audioManager.PlayAtPosition(song, transform);
+            played = true;
+        }
     }
 
 }

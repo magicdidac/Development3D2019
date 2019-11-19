@@ -11,6 +11,8 @@ public class PortalGun : MonoBehaviour
     [SerializeField] private GameObject orangePreview = null;
     [SerializeField] private Transform objectsTarget = null;
     [SerializeField] private PlayerMovement player = null;
+    [Space]
+    [SerializeField] private LayerMask layersCanRaycast = 0;
 
     [HideInInspector] private GameManager gm;
     [HideInInspector] private PortalPreview preview;
@@ -39,9 +41,10 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, LayerMask.GetMask("Printable")))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, layersCanRaycast))
             {
-                MovePreview(hit, bluePreview);
+                if (hit.transform.tag.Equals("Printable"))
+                    MovePreview(hit, bluePreview);
             }
         }
 
@@ -49,9 +52,10 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, LayerMask.GetMask("Printable")))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, layersCanRaycast))
             {
-                MovePreview(hit, orangePreview);
+                if (hit.transform.tag.Equals("Printable"))
+                    MovePreview(hit, orangePreview);
             }
         }
 
@@ -88,7 +92,7 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, LayerMask.GetMask("Pickable")))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5, layersCanRaycast))
             {
 
                 if (hit.transform.GetComponent<Pickable>())
@@ -127,7 +131,7 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, LayerMask.GetMask("Printable")))
+            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, layersCanRaycast))
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {
@@ -154,7 +158,7 @@ public class PortalGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, LayerMask.GetMask("Printable")))
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity, layersCanRaycast))
             {
                 if (hit.transform.tag.Equals("Printable"))
                 {

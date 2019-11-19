@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8679288489675906824}
   - component: {fileID: 8679288489675906825}
-  m_Layer: 0
+  - component: {fileID: 2782543494931206847}
+  m_Layer: 13
   m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +120,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Song-Radio
-    clip: {fileID: 8300000, guid: 9bf27569a21ce2c4180b7f38d104db04, type: 3}
+    clip: {fileID: 8300000, guid: 7de978286f174e9419b968e527f06127, type: 3}
     volume: 0.5
     is3D: 1
     loop: 1
@@ -127,8 +128,8 @@ MonoBehaviour:
   - name: Song-StillAlive
     clip: {fileID: 8300000, guid: 4cd266b3ed01d7e47941abeb508776ef, type: 3}
     volume: 0.5
-    is3D: 0
-    loop: 0
+    is3D: 1
+    loop: 1
     source: {fileID: 0}
   - name: Pickable-Dead
     clip: {fileID: 8300000, guid: 64206ec27088bb945b1be00185c28b4b, type: 3}
@@ -204,3 +205,20 @@ MonoBehaviour:
     - {fileID: 8300000, guid: d9ada518a2f759341899ae73ebbbf04b, type: 3}
     - {fileID: 8300000, guid: 4d5e1cbf9c73b8a418efe85c2779c501, type: 3}
     - {fileID: 8300000, guid: df949cfc88ccfbe4ea532c1d60f23a8a, type: 3}
+--- !u!114 &2782543494931206847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8679288489675906831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: c619b9213c6b27b4480f1b546668eb3f, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
