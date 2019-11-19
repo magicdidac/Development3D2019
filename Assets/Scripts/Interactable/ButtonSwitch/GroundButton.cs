@@ -7,6 +7,8 @@ public class GroundButton : ButtonSwitch
 
     [HideInInspector] private Animator anim;
 
+    [HideInInspector] private GameObject otherObject;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -30,12 +32,20 @@ public class GroundButton : ButtonSwitch
 
     private void OnTriggerEnter(Collider other)
     {
-        InteractPositive();
+        if(otherObject == null)
+        {
+            otherObject = other.gameObject;
+            InteractPositive();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        InteractNegative();
+        if (other.gameObject == otherObject)
+        {
+            InteractNegative();
+            otherObject = null;
+        }
     }
 
 }

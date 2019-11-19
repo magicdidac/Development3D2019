@@ -72,7 +72,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Elevator-Loop
     clip: {fileID: 8300000, guid: 11bb7fe9226c04041aae415c7dd9efea, type: 3}
-    volume: 1
+    volume: 0.5
     is3D: 0
     loop: 1
     source: {fileID: 0}
@@ -141,6 +141,12 @@ MonoBehaviour:
     volume: 0.75
     is3D: 0
     loop: 0
+    source: {fileID: 0}
+  - name: Ambient-Industrial
+    clip: {fileID: 8300000, guid: 2c058c8bd0d248548a8d899716967489, type: 3}
+    volume: 0.3
+    is3D: 0
+    loop: 1
     source: {fileID: 0}
   soundCollections:
   - name: Turret-Pick

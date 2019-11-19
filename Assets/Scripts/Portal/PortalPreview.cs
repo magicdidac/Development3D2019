@@ -5,7 +5,7 @@ using UnityEngine;
 public class PortalPreview : MonoBehaviour
 {
 
-    [HideInInspector] public float size { get; private set; }
+    [HideInInspector] public float size;
     [HideInInspector] private Vector3 initialScale;
 
 
@@ -18,20 +18,7 @@ public class PortalPreview : MonoBehaviour
 
     private void Update()
     {
-
-        float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
-
-        size += mouseWheel;
-
-        if (size < .5f)
-            size = .5f;
-
-        if (size > 2)
-            size = 2;
-
-
         transform.localScale = initialScale * size;
-
     }
 
 }

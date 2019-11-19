@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Door : InteractableObject
 {
-    [HideInInspector] private Animator anim;
+    [HideInInspector] protected Animator anim;
 
-    private void Start()
+    protected virtual void Start()
     {
         anim = GetComponent<Animator>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         CheckAllTriggersPositiveOrNegative();
     }

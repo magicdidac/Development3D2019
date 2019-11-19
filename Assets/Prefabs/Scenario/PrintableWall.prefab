@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5174342041320449802}
   - component: {fileID: 1509407091856350195}
   - component: {fileID: 8167702720424098981}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PrintableWall
   m_TagString: Printable
   m_Icon: {fileID: 0}

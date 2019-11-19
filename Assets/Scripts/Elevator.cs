@@ -22,6 +22,8 @@ public class Elevator : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovement>())
         {
+            bool areOpen = isOpen;
+
             if (!isReciver)
             {
                 if (isOpen)
@@ -35,9 +37,25 @@ public class Elevator : MonoBehaviour
             else
                 isOpen = true;
 
+            if (areOpen != isOpen)
+            {
+                GameManager.instance.audioManager.PlayAtPosition((isOpen) ? "Door-Open" : "Door-Close", transform);
+
+                if (!isOpen)
+                    Invoke("PlayLoop", .55f);
+                else
+                    GameManager.instance.audioManager.StopSound("Elevator-Loop");
+            }
+
             anim.SetBool("isOpen", isOpen);
         }
     }
+
+    private void PlayLoop()
+    {
+        GameManager.instance.audioManager.Play("Elevator-Loop");
+    }
+
 
     private void GoToNext()
     {

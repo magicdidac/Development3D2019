@@ -185,5 +185,6 @@ public class Pickable : MonoBehaviour
     public void ResetAfterPortalExit()
     {
         transform.GetChild(0).gameObject.layer = 0;
+        transform.gameObject.layer = LayerMask.NameToLayer("Pickable");
     }
 }

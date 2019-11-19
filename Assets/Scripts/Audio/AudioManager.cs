@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class AudioManager : MonoBehaviour
         {
             sc.Instantiate();
         }
+
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+            Play("Ambient-Industrial");
 
     }
 
@@ -114,6 +118,23 @@ public class AudioManager : MonoBehaviour
     public void PlaySoundOfCollectionAtPosition(string name, Vector3 position)
     {
         PlaySoundOfCollectionAtPosition(name, position, null);
+    }
+
+    public void StopSound(string name)
+    {
+        StopSound(Array.Find(sounds.ToArray(), sound => sound.name == name));
+    }
+
+    private void StopSound(Sound s)
+    {
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found! [trying to stop]");
+            return;
+        }
+
+        s.source.Stop();
+
     }
 
     private void ApplySettings(AudioSource source, Sound s)
