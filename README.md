@@ -91,10 +91,11 @@ We hace to make an Portal clone and it need to have the following features:
 - [ ] **Decorative stuff**
 - [ ] **More models**
 	- [ ] Dispenser model
-	- [ ] Destroying wall model
-- [x] **Pickables destroy**
+	- [x] Destroying wall model shader
+- [x] **Pickables destroy beautiful**
 - [ ] **Fix laser reciver ¿?**
 - [ ] **Fix camera depth only**
+- [x] **Elevator**
 
 ## Questions 4 teacher
 
@@ -136,3 +137,4 @@ We hace to make an Portal clone and it need to have the following features:
 - [Some Portal 2 Sounds](https://www.sounds-resource.com/pc_computer/portal2/)
 - [How to get Portal and Portal 2 sounds from game files](https://gaming.stackexchange.com/questions/21445/how-do-i-extract-portal-2-sound-effects)
 - [How to do a dissolve shader](https://www.youtube.com/watch?v=taMp1g1pBeE)
+- [How to do a hologram shader](https://www.youtube.com/watch?v=KGGB5LFEejg)

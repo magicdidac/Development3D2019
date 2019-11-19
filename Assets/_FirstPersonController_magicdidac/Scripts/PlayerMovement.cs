@@ -57,9 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public void TeleportToPortal(Portal portal, float offset)
     {
 
-        controller.enabled = false;
-        transform.position = GetOtherPortalPosition(portal, offset);
-        controller.enabled = true;
+        TeleportTo(GetOtherPortalPosition(portal, offset));
 
         Vector3 direction = portal.transform.InverseTransformDirection(-transform.forward);
         transform.forward = portal.otherPortal.transform.TransformDirection(direction);
@@ -98,6 +96,13 @@ public class PlayerMovement : MonoBehaviour
             returnPosition.x = other.x + (otherForward.x * offset);
 
         return returnPosition;
+    }
+
+    public void TeleportTo(Vector3 position)
+    {
+        controller.enabled = false;
+        transform.position = position;
+        controller.enabled = true;
     }
 
     public void Dead()
