@@ -16,7 +16,7 @@ public class PlayerTriggers : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("Kill"))
-            player.Dead();
+            GameManager.instance.Dead();
 
         if (other.tag.Equals("Reset"))
             GameManager.instance.DeletePortals();

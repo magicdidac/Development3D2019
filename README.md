@@ -57,7 +57,7 @@ We hace to make an Portal clone and it need to have the following features:
 - [x] **Game Over / Retry**
 	- [x] Game Over Screen
 	- [x] Restart the game
-- [x] **Checkpoint**
+- [x] **Checkpoint (scene change)**
 	- [x] Save checkpoint
 	- [x] Restart from the checkpoint
 - [x] **Sound**

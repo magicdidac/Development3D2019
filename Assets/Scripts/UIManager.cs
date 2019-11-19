@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     {
         DeadMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ReviveButton()
