@@ -16,7 +16,7 @@ These videos show how the project progresses.
 
 1. [First video](https://www.youtube.com/watch?v=rF6qDtM4pgE "Video 1")
 
-1. [Final project at university subject](https://www.youtube.com/watch?v=rF6qDtM4pgE "Video 2")
+1. [Final project at university subject](https://youtu.be/5fgZ2y8PaSM "Video 2")
 
 
 ## "Mandatory" features
