@@ -1,6 +1,23 @@
-# Practice 02
+# Portal Clone by magicdidac
 
-We hace to make an Portal clone and it need to have the following features:
+It was a University project for 3D Game development subject. We need to clone Portal game, but with some changes. In this document you will see all the stuff that we had to do and in what things I made with more emphasis.
+
+Please feel free to read this document and see all my project. Thank you for your attention.
+
+## Index
+
+* [Videos](#videos "Videos")
+* ["Mandatory" features](#mandatory-features "Mandatory features")
+* ["Mandatory" features](#my-own-assets-used "Mandatory features")
+
+## Videos
+
+These videos show how the project progresses.
+
+1. [First video](https://www.youtube.com/watch?v=rF6qDtM4pgE "Video 1")
+
+1. [Final project at university subject](https://www.youtube.com/watch?v=rF6qDtM4pgE "Video 2")
+
 
 ## "Mandatory" features
 
