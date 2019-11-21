@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 2;
     [SerializeField] private float runSpeed = 5;
+    [SerializeField] private float jumpSpeed = 10;
+    [SerializeField] private float gravity = -9.8f;
     [Space]
     [SerializeField] private Animator anim = null;
     
@@ -15,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] private CharacterController characterController;
     [HideInInspector] private float speed;
     [HideInInspector] private Vector3 lastForward = Vector3.zero;
+    [HideInInspector] private CollisionFlags collisionFlags;
+
+    [HideInInspector] private float verticalSpeed;
+    [HideInInspector] private bool isGrounded;
 
     private void Start()
     {
@@ -25,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        anim.transform.localPosition = Vector3.zero;
+
         Vector3 movement = Vector3.zero;
         Vector3 forward = camTransform.forward;
         Vector3 right = camTransform.right;
@@ -48,10 +56,33 @@ public class PlayerMovement : MonoBehaviour
         speed = (Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed);
         movement.Normalize();
 
-        characterController.Move(movement * speed * Time.deltaTime);
+        movement *= speed * Time.deltaTime;
 
+        verticalSpeed += gravity * Time.deltaTime;
+        movement.y = verticalSpeed * Time.deltaTime;
 
-        transform.forward = (hasMovement) ? movement : lastForward;
+        collisionFlags = characterController.Move(movement);
+
+        if ((collisionFlags & CollisionFlags.Below) != 0)
+        {
+            isGrounded = true;
+            verticalSpeed = 0;
+        }
+        else
+            isGrounded = false;
+
+        if ((collisionFlags & CollisionFlags.Above) != 0 && verticalSpeed > 0.0f)
+            verticalSpeed = 0;
+
+        if(isGrounded && Input.GetKey(KeyCode.Space))
+        {
+            //Animation
+
+            verticalSpeed = jumpSpeed;
+
+        }
+        
+        transform.forward = (hasMovement) ? new Vector3 (movement.x, 0, movement.z) : lastForward;
         lastForward = transform.forward;
 
         anim.SetFloat("Speed", hasMovement ? (speed == runSpeed ? 1 : .2f) : 0f);
