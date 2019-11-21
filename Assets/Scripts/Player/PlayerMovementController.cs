@@ -6,11 +6,11 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 2;
-    [SerializeField] private float runSpeed = 5;
+    [SerializeField] public float runSpeed = 5;
     [SerializeField] private float jumpSpeed = 10;
     [SerializeField] private float gravity = -9.8f;
     [Space]
-    [SerializeField] private Animator anim = null;
+    [HideInInspector] public Animator anim = null;
     
 
     [HideInInspector] private Transform camTransform;
@@ -29,7 +29,12 @@ public class PlayerMovementController : MonoBehaviour
         camTransform = Camera.main.transform;
     }
 
-    private void Update()
+    public void Initialice(Animator anim)
+    {
+        this.anim = anim;
+    }
+
+    public float Move()
     {
         anim.transform.localPosition = Vector3.zero;
 
@@ -85,7 +90,9 @@ public class PlayerMovementController : MonoBehaviour
         transform.forward = (hasMovement) ? new Vector3 (movement.x, 0, movement.z) : lastForward;
         lastForward = transform.forward;
 
-        anim.SetFloat("Speed", hasMovement ? (speed == runSpeed ? 1 : .2f) : 0f);
+        return speed;
+
+        //anim.SetFloat("Speed", hasMovement ? (speed == runSpeed ? 1 : .2f) : 0f);
 
     }
 

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerCameraController : MonoBehaviour
 {
-    [SerializeField] private float distanceToLookAt = 5;
+    [SerializeField] private float maxDistanceToLookAt = 5;
+    [SerializeField] private float minDistanceToLookAt = 1;
     [SerializeField] private LayerMask raycastLayerMask;
     [SerializeField] private float offsetOnCollision = .5f;
     [Space]
@@ -49,10 +50,16 @@ public class PlayerCameraController : MonoBehaviour
 
         direction.Normalize();
 
-        if(distance > distanceToLookAt)
+        if(distance > maxDistanceToLookAt)
         {
-            distance = distanceToLookAt;
-            desiredPosition = player.position - direction * distanceToLookAt;
+            distance = maxDistanceToLookAt;
+            desiredPosition = player.position - direction * maxDistanceToLookAt;
+        }
+
+        if (distance < minDistanceToLookAt)
+        {
+            distance = minDistanceToLookAt;
+            desiredPosition = player.position - direction * minDistanceToLookAt;
         }
 
         RaycastHit hit;
