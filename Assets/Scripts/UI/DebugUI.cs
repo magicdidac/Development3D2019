@@ -7,6 +7,7 @@ using TMPro;
 public class DebugUI : MonoBehaviour
 { 
     [SerializeField] private TMP_Text stateText = null;
+    [SerializeField] private TMP_Text statatsText = null;
 
     [HideInInspector] private PlayerController player;
 
@@ -21,6 +22,10 @@ public class DebugUI : MonoBehaviour
             player = GameManager.instance.player;
 
         stateText.text = player.GetCurrentState();
+
+        statatsText.text = "isGrounded: " + player.isGrounded +
+            "\nrecentJump: " + player.recentJump;
+
     }
 
 }

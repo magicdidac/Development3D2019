@@ -15,13 +15,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float doubleJumpForce = 10;
     [SerializeField] public float tripleJumpForce = 13;
     [SerializeField] public float gravity = -9.8f;
-
+    [SerializeField] private LayerMask groundMask = 0;
 
     /** Hide Atributes **/
     [HideInInspector] private StateMachine myStateMachine = new StateMachine();
     [HideInInspector] private CharacterController characterController;
 
-    [HideInInspector] private bool isGrounded;
+    [HideInInspector] public bool isGrounded;
     [HideInInspector] public float verticalSpeed;
     [HideInInspector] private Transform camTransform;
     [HideInInspector] private Vector3 lastForward;
@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private int jump = 0;
     [HideInInspector] private float lastJumpTime;
     [HideInInspector] public bool recentJump;
+
+    [HideInInspector] private Transform platform;
 
     /** Initialization **/
     private void Start()
@@ -55,13 +57,24 @@ public class PlayerController : MonoBehaviour
 
         if (!isGrounded && recentJump)
             lastJumpTime = Time.time;
-        else if (isGrounded && recentJump)
+        else if (isGrounded && verticalSpeed < 0 && recentJump)
             recentJump = false;
 
         ChangeState();
 
+        UpdatePlatform();
+
         Move();
         ResetAnimPosition();
+    }
+
+    private void UpdatePlatform()
+    {
+        if(platform != null)
+        {
+            if (platform.eulerAngles.x != 270)
+                DetachPlatform();
+        }
     }
 
     private void ChangeState()
@@ -183,14 +196,28 @@ public class PlayerController : MonoBehaviour
         movement.y = verticalSpeed * Time.deltaTime;
 
         CollisionFlags collisionFlags = characterController.Move(movement);
-
+        /*
         if ((collisionFlags & CollisionFlags.Below) != 0)
         {
             isGrounded = true;
             verticalSpeed = 0;
         }
         else
-            isGrounded = false;
+            isGrounded = false;*/
+
+        /*if (Physics.Raycast(transform.position, Vector3.down, .1f, groundMask))
+        {
+            isGrounded = true;
+            verticalSpeed = 0;
+        }
+        else
+            isGrounded = false;*/
+
+        isGrounded = Physics.CheckSphere(transform.position, .4f, groundMask);
+
+        if (isGrounded && !recentJump)
+            verticalSpeed = 0;
+
 
         anim.SetBool("isGrounded", isGrounded);
 
@@ -207,4 +234,35 @@ public class PlayerController : MonoBehaviour
     {
         return myStateMachine.currentState.GetType().ToString();
     }
+
+    /** Triggers **/
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        if (other.tag == "Platform" && platform == null)
+        {
+            AttachPlatform(other.transform);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Platform" && platform != null)
+            DetachPlatform();
+    }
+
+    private void AttachPlatform(Transform platform)
+    {
+        this.platform = platform;
+
+        transform.parent = this.platform;
+
+    }
+
+    private void DetachPlatform()
+    {
+        this.platform = null;
+        transform.parent = null;
+    }
+
 }
