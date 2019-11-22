@@ -12,13 +12,14 @@ public class PunchBehaviour : StateMachineBehaviour
     }
 
     [HideInInspector] private PlayerController playerController;
-    [SerializeField] private float startPctTime;
-    [SerializeField] private float endPctTime;
+    [SerializeField] private float startPctTime = 0;
+    [SerializeField] private float endPctTime = 0;
     [SerializeField] private TPunchType punchType = TPunchType.LEFT_HAND;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
+        playerController = GameManager.instance.player;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

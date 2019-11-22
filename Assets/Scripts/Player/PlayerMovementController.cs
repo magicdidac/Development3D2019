@@ -91,9 +91,6 @@ public class PlayerMovementController : MonoBehaviour
         lastForward = transform.forward;
 
         return speed;
-
-        //anim.SetFloat("Speed", hasMovement ? (speed == runSpeed ? 1 : .2f) : 0f);
-
     }
 
 }
