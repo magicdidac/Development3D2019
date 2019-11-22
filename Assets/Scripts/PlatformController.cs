@@ -44,7 +44,6 @@ public class PlatformController : MonoBehaviour
     {
         nextPoint = (nextPoint == startPoint.position) ? endPoint.position : startPoint.position;
         nextRotation = (nextPoint == startPoint.position) ? endPoint.rotation: startPoint.rotation;
-        Debug.Log(transform.eulerAngles + " - " + nextRotation);
     }
 
 }

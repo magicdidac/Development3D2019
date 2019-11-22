@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float jumpForce = 7;
     [SerializeField] public float doubleJumpForce = 10;
     [SerializeField] public float tripleJumpForce = 13;
+    [SerializeField] private float bridgeForce = 2;
     [SerializeField] public float gravity = -9.8f;
     [SerializeField] private LayerMask groundMask = 0;
 
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         if (!isGrounded && recentJump)
             lastJumpTime = Time.time;
-        else if (isGrounded && verticalSpeed < 0 && recentJump)
+        else if (isGrounded && verticalSpeed <= 0 && recentJump)
             recentJump = false;
 
         ChangeState();
@@ -196,14 +197,14 @@ public class PlayerController : MonoBehaviour
         movement.y = verticalSpeed * Time.deltaTime;
 
         CollisionFlags collisionFlags = characterController.Move(movement);
-        /*
+        
         if ((collisionFlags & CollisionFlags.Below) != 0)
         {
             isGrounded = true;
             verticalSpeed = 0;
         }
         else
-            isGrounded = false;*/
+            isGrounded = false;
 
         /*if (Physics.Raycast(transform.position, Vector3.down, .1f, groundMask))
         {
@@ -213,10 +214,10 @@ public class PlayerController : MonoBehaviour
         else
             isGrounded = false;*/
 
-        isGrounded = Physics.CheckSphere(transform.position, .4f, groundMask);
+        /*isGrounded = Physics.CheckSphere(transform.position, .4f, groundMask);
 
         if (isGrounded && !recentJump)
-            verticalSpeed = 0;
+            verticalSpeed = 0;*/
 
 
         anim.SetBool("isGrounded", isGrounded);
@@ -236,6 +237,16 @@ public class PlayerController : MonoBehaviour
     }
 
     /** Triggers **/
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.collider.tag == "Bridge")
+        {
+        Debug.Log("SI");
+            Rigidbody rb = hit.collider.attachedRigidbody;
+            rb.AddForceAtPosition(-hit.normal * bridgeForce, hit.point);
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
