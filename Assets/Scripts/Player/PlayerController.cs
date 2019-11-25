@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("General")]
-    [SerializeField] private PlayerCameraController playerCamera = null;
     [SerializeField] private Animator anim = null;
+    [SerializeField] private PlayerLifeController lifeController = null;
     [Header("Movement")]
     [SerializeField] public float walkSpeed = 2;
     [SerializeField] public float runSpeed = 5;
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private StateMachine myStateMachine = new StateMachine();
     [HideInInspector] private CharacterController characterController;
 
+    [HideInInspector] private CollisionFlags collisionFlags;
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public float verticalSpeed;
     [HideInInspector] private Transform camTransform;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private int jump = 0;
     [HideInInspector] private float lastJumpTime;
     [HideInInspector] public bool recentJump;
+    [HideInInspector] private bool needsJump = false;
 
     [HideInInspector] private Transform platform;
 
@@ -86,7 +88,16 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(isGrounded && Input.GetButtonDown("Jump"))
+        if (needsJump)
+        {
+            myStateMachine.ChangeState(new JumpState(anim, this, 0));
+
+            needsJump = false;
+
+            return;
+        }
+
+        if((isGrounded && Input.GetButtonDown("Jump")))
         {
             if (Time.time > lastJumpTime + .2f)
                 jump = 0;
@@ -97,6 +108,8 @@ public class PlayerController : MonoBehaviour
 
             if (jump > 2)
                 jump = 2;
+
+            needsJump = false;
 
             return;
         }
@@ -196,7 +209,7 @@ public class PlayerController : MonoBehaviour
         verticalSpeed += gravity * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
 
-        CollisionFlags collisionFlags = characterController.Move(movement);
+        collisionFlags = characterController.Move(movement);
         
         if ((collisionFlags & CollisionFlags.Below) != 0)
         {
@@ -246,6 +259,16 @@ public class PlayerController : MonoBehaviour
             Rigidbody rb = hit.collider.attachedRigidbody;
             rb.AddForceAtPosition(-hit.normal * bridgeForce, hit.point);
         }
+
+        if(hit.gameObject.GetComponent<Goomba>())
+        {
+            if (verticalSpeed < 0)
+            {
+                hit.gameObject.GetComponent<Goomba>().Die();
+                needsJump = true;
+            }
+        }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -274,6 +297,11 @@ public class PlayerController : MonoBehaviour
     {
         this.platform = null;
         transform.parent = null;
+    }
+
+    public void Hit()
+    {
+        lifeController.DecreaseLifes();
     }
 
 }

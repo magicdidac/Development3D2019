@@ -67,7 +67,6 @@ public class PlayerCameraController : MonoBehaviour
         Ray ray = new Ray(player.position, -direction);
         if (Physics.Raycast(ray, out hit, distance, raycastLayerMask.value))
         {
-
             desiredPosition = hit.point + direction * offsetOnCollision;
         }
 
