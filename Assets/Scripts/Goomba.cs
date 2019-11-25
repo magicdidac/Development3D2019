@@ -68,12 +68,14 @@ public class Goomba : MonoBehaviour
                 if (distanceToPlayer < 1.5f)
                 {
                     state = TState.ATTACK;
+                    player.Hit();
                     agent.isStopped = true;
                     anim.SetBool("Chase", false);
                     anim.SetBool("Idle", true);
+                    return;
                 }
 
-                if (distanceToPlayer > chaseDistance)
+                if (state != TState.ATTACK && distanceToPlayer > chaseDistance)
                 {
                     state = TState.PATROL;
                     agent.speed = patrolSpeed;
@@ -92,6 +94,7 @@ public class Goomba : MonoBehaviour
 
     private void ChangeToPatrol()
     {
+        CancelInvoke("ChangeToPatrol");
         state = TState.PATROL;
         anim.SetBool("Idle", false);
         agent.isStopped = false;
@@ -115,6 +118,16 @@ public class Goomba : MonoBehaviour
 
         Destroy(gameObject, .6f);
 
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("OH YEAH");
+
+        if(other.tag == "Punch")
+        {
+            Die();
+        }
     }
 
     private void OnDrawGizmos()

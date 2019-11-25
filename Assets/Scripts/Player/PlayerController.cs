@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] private Animator anim = null;
-    [SerializeField] private PlayerLifeController lifeController = null;
+    [SerializeField] public PlayerLifeController lifeController = null;
+    [SerializeField] public PlayerCoinController coinController = null;
     [Header("Movement")]
     [SerializeField] public float walkSpeed = 2;
     [SerializeField] public float runSpeed = 5;
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float bridgeForce = 2;
     [SerializeField] public float gravity = -9.8f;
     [SerializeField] private LayerMask groundMask = 0;
+    [Header("Punch")]
+    [SerializeField] public Collider punchCollider = null;
 
     /** Hide Atributes **/
     [HideInInspector] private StateMachine myStateMachine = new StateMachine();
@@ -45,17 +48,26 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.player = this;
 
         characterController = GetComponent<CharacterController>();
-        myStateMachine.ChangeState(new IdleState(anim));
+        myStateMachine.ChangeState(new IdleState(anim, this));
 
         camTransform = Camera.main.transform;
 
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     /** Update **/
 
     private void Update()
     {
+        if (lifeController.currentLifes <= 0)
+        {
+            myStateMachine.ChangeState(new DeathState(anim));
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+        else
+            Cursor.lockState = CursorLockMode.Locked;
+
+
         myStateMachine.ExecuteStateUpdate();
 
         if (!isGrounded && recentJump)
@@ -124,7 +136,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        myStateMachine.ChangeState(new IdleState(anim));
+        myStateMachine.ChangeState(new IdleState(anim, this));
     }
 
     private void ResetAnimPosition()
@@ -136,17 +148,17 @@ public class PlayerController : MonoBehaviour
 
     public void EnableLeftHandPunch(bool enableHandPunch)
     {
-
+        punchCollider.enabled = enableHandPunch;
     }
 
     public void EnableRightHandPunch(bool enableHandPunch)
     {
-
+        punchCollider.enabled = enableHandPunch;
     }
 
     public void EnableKick(bool enableHandPunch)
     {
-
+        punchCollider.enabled = enableHandPunch;
     }
 
     private PunchBehaviour.TPunchType GetNextPunch()
@@ -301,7 +313,13 @@ public class PlayerController : MonoBehaviour
 
     public void Hit()
     {
-        lifeController.DecreaseLifes();
+        myStateMachine.ChangeState(new HitState(anim, lifeController));
+    }
+
+    private void DoIdlePlus()
+    {
+        anim.SetTrigger("IdlePlus");
+        Invoke("DoIdlePlus", 10);
     }
 
 }

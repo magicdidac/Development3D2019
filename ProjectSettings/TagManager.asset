@@ -7,6 +7,10 @@ TagManager:
   - Platform
   - Bridge
   - Goomba
+  - Coin
+  - Star
+  - Kill
+  - Punch
   layers:
   - Default
   - TransparentFX

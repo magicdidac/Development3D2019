@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : IState
+public class DeathState : IState
 {
     private Animator anim;
-    private PlayerController player;
 
-    public IdleState(Animator anim, PlayerController player)
+    public DeathState(Animator anim)
     {
         this.anim = anim;
-        this.player = player;
     }
 
     public void Enter()
     {
-        anim.SetFloat("Speed", 0);
-        player.Invoke("DoIdlePlus", 10);
+        anim.SetTrigger("Death");
     }
 
     public void Execute()
@@ -26,9 +23,6 @@ public class IdleState : IState
 
     public void Exit()
     {
-        player.CancelInvoke();
+        
     }
-
-    
-
 }

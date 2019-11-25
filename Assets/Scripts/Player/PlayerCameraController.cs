@@ -15,42 +15,82 @@ public class PlayerCameraController : MonoBehaviour
     [Space]
     [SerializeField] private Transform player = null;
 
+    [HideInInspector] private Vector3 desiredPosition;
+    [HideInInspector] private Vector3 direction;
+    [HideInInspector] private float distance;
+
+    [HideInInspector] private bool moveBack = false;
+
 
     private void LateUpdate()
     {
+        if (GameManager.instance.player.lifeController.currentLifes <= 0)
+            return;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        Vector3 desiredPosition = transform.position;
+        desiredPosition = transform.position;
+        direction = transform.forward;
+        distance = Vector3.Distance(transform.position, player.position);
 
-        Vector3 direction = transform.forward;
-        float distance = Vector3.Distance(transform.position, player.position);
+        if (Mathf.Abs(mouseX) < .01f && Mathf.Abs(mouseY) < .01f)
+        {
+            Invoke("ActiveMoveToBack", 5);
+        }
+        else
+        {
+            CancelInvoke();
+            moveBack = false;
+        }
 
-        //if ( Mathf.Abs(mouseX) > .01f || Mathf.Abs(mouseY) > .01f)
-        //{
+        float yaw = 0;
+        float pitch = 0;
+
+        if (!moveBack)
+        {
             Vector3 eulerAngles = transform.eulerAngles;
-            float yaw = (eulerAngles.y + 180);
-            float pitch = eulerAngles.x;
+            yaw = (eulerAngles.y + 180);
+            pitch = eulerAngles.x;
+        }
+        else
+        {
+            yaw = player.eulerAngles.y + 180;
+            pitch = 25;
+        }
 
-            yaw += sensitivity * mouseX * Time.deltaTime;
-            yaw *= Mathf.Deg2Rad;
 
-            if (pitch > 180f)
-                pitch -= 360;
+        CalculatePosition(mouseX, mouseY, yaw, pitch);
 
-            pitch += sensitivity * (-mouseY) * Time.deltaTime;
-            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
-            pitch *= Mathf.Deg2Rad;
+        transform.forward = (moveBack)? Vector3.MoveTowards(transform.forward, direction, .1f) : direction;
+        transform.position = (moveBack)? Vector3.MoveTowards(transform.position, desiredPosition, .5f) : desiredPosition;
 
-            desiredPosition = player.position + new Vector3(Mathf.Sin(yaw) * Mathf.Cos(pitch) * distance, Mathf.Sin(pitch) * distance, Mathf.Cos(yaw) * Mathf.Cos(pitch) * distance);
+    }
 
-            direction = player.position - desiredPosition;
+    private void ActiveMoveToBack()
+    {
+        moveBack = true;
+    }
 
-        //}
+    private void CalculatePosition(float mouseX, float mouseY, float yaw, float pitch)
+    {
+        yaw += sensitivity * mouseX * Time.deltaTime;
+        yaw *= Mathf.Deg2Rad;
+
+        if (pitch > 180f)
+            pitch -= 360;
+
+        pitch += sensitivity * (-mouseY) * Time.deltaTime;
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        pitch *= Mathf.Deg2Rad;
+
+        desiredPosition = player.position + new Vector3(Mathf.Sin(yaw) * Mathf.Cos(pitch) * distance, Mathf.Sin(pitch) * distance, Mathf.Cos(yaw) * Mathf.Cos(pitch) * distance);
+
+        direction = player.position - desiredPosition;
 
         direction.Normalize();
 
-        if(distance > maxDistanceToLookAt)
+        if (distance > maxDistanceToLookAt)
         {
             distance = maxDistanceToLookAt;
             desiredPosition = player.position - direction * maxDistanceToLookAt;
@@ -70,8 +110,7 @@ public class PlayerCameraController : MonoBehaviour
             desiredPosition = hit.point + direction * offsetOnCollision;
         }
 
-        transform.forward = direction;
-        transform.position = desiredPosition;
+        
 
     }
 

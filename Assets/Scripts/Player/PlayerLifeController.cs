@@ -21,17 +21,43 @@ public class PlayerLifeController : MonoBehaviour
     {
         currentLifes--;
 
-        if(currentLifes <= 0)
+        GameManager.instance.uiController.Refresh();
+
+    }
+
+    public void IncreaseLifes()
+    {
+        currentLifes++;
+
+        GameManager.instance.uiController.Refresh();
+
+    }
+
+    private void Die()
+    {
+        currentLifes = 0;
+
+        GameManager.instance.uiController.Refresh();
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Star")
         {
-            currentLives--;
-            currentLifes = initialLifes;
+            IncreaseLifes();
+
+            // TODO: Sound
+
+            Destroy(other.gameObject);
         }
 
-        if(currentLives <= 0)
+        if(other.tag == "Kill")
         {
-            Application.Quit();
+            Die();
         }
 
     }
+
 
 }
