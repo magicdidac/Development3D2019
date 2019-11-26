@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static GameManager instance;
     [HideInInspector] public PlayerController player;
     [HideInInspector] public UIController uiController;
+    [HideInInspector] public AudioManager audioManager;
 
     private void Awake()
     {

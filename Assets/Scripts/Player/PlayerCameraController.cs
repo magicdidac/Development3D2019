@@ -34,7 +34,7 @@ public class PlayerCameraController : MonoBehaviour
         direction = transform.forward;
         distance = Vector3.Distance(transform.position, player.position);
 
-        if (Mathf.Abs(mouseX) < .01f && Mathf.Abs(mouseY) < .01f)
+        if (Mathf.Abs(mouseX) < .01f && Mathf.Abs(mouseY) < .01f && !Input.anyKey)
         {
             Invoke("ActiveMoveToBack", 5);
         }

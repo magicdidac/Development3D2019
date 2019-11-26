@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCoinController : MonoBehaviour
 {
     [HideInInspector] public int coins { get; private set; }
+    [SerializeField] private GameObject coinParticles = null;
 
     public void IncreaseCoins()
     {
@@ -17,7 +18,8 @@ public class PlayerCoinController : MonoBehaviour
         if (other.tag == "Coin")
         {
             IncreaseCoins();
-            // TODO: Sound
+            GameManager.instance.audioManager.Play("Sound-Coin");
+            Destroy(Instantiate(coinParticles, other.transform.position, Quaternion.identity), 1f);
             Destroy(other.gameObject);
         }
     }

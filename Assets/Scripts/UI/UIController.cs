@@ -30,6 +30,8 @@ public class UIController : MonoBehaviour
     [Header("Extra")]
     [SerializeField] private Animator fadeAnimator = null;
 
+
+
     private void Start()
     {
 
@@ -83,6 +85,7 @@ public class UIController : MonoBehaviour
     private void ActiveDead()
     {
         fadeAnimator.SetBool("Dead", true);
+        gm.audioManager.StopSound("Song-MainTheme");
     }
 
     private void RefreshCoins()

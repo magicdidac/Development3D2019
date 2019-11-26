@@ -8,6 +8,9 @@ public class PlayerLifeController : MonoBehaviour
     [SerializeField] private int initialLifes = 8;
     [SerializeField] private int initialLives = 3;
 
+    [SerializeField] private GameObject starParticles = null;
+    [SerializeField] private GameObject deadParticles = null;
+
     [HideInInspector] public int currentLifes { get; private set; }
     [HideInInspector] public int currentLives { get; private set; }
 
@@ -20,6 +23,9 @@ public class PlayerLifeController : MonoBehaviour
     public void DecreaseLifes()
     {
         currentLifes--;
+
+        if (currentLifes <= 0)
+            Die();
 
         GameManager.instance.uiController.Refresh();
 
@@ -37,6 +43,8 @@ public class PlayerLifeController : MonoBehaviour
     {
         currentLifes = 0;
 
+        Destroy(Instantiate(deadParticles, transform.position, Quaternion.identity), 1f);
+
         GameManager.instance.uiController.Refresh();
 
     }
@@ -47,7 +55,9 @@ public class PlayerLifeController : MonoBehaviour
         {
             IncreaseLifes();
 
-            // TODO: Sound
+            GameManager.instance.audioManager.Play("Sound-Star");
+
+            Destroy(Instantiate(starParticles, other.transform.position, Quaternion.identity), 1f);
 
             Destroy(other.gameObject);
         }

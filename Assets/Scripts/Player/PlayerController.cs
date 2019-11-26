@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] private Transform platform;
 
+    [HideInInspector] public bool punchIsActive = false;
+
     /** Initialization **/
     private void Start()
     {
@@ -126,6 +128,14 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (!isGrounded){
+            myStateMachine.ChangeState(new FallState(anim, this));
+            return;
+        }
+
+        if(Physics.CheckSphere(transform.position + (Vector3.up * .75f), 1, groundMask))
+
+
         if(Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
         {
             if(Input.GetButton("Run"))
@@ -148,17 +158,17 @@ public class PlayerController : MonoBehaviour
 
     public void EnableLeftHandPunch(bool enableHandPunch)
     {
-        punchCollider.enabled = enableHandPunch;
+        punchIsActive = enableHandPunch;
     }
 
     public void EnableRightHandPunch(bool enableHandPunch)
     {
-        punchCollider.enabled = enableHandPunch;
+        punchIsActive = enableHandPunch;
     }
 
     public void EnableKick(bool enableHandPunch)
     {
-        punchCollider.enabled = enableHandPunch;
+        punchIsActive = enableHandPunch;
     }
 
     private PunchBehaviour.TPunchType GetNextPunch()
@@ -244,9 +254,6 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !recentJump)
             verticalSpeed = 0;*/
 
-
-        anim.SetBool("isGrounded", isGrounded);
-
         if ((collisionFlags & CollisionFlags.Above) != 0 && verticalSpeed > 0.0f)
             verticalSpeed = 0;
 
@@ -272,11 +279,11 @@ public class PlayerController : MonoBehaviour
             rb.AddForceAtPosition(-hit.normal * bridgeForce, hit.point);
         }
 
-        if(hit.gameObject.GetComponent<Goomba>())
+        if(hit.gameObject.GetComponent<AEnemy>())
         {
             if (verticalSpeed < 0)
             {
-                hit.gameObject.GetComponent<Goomba>().Die();
+                hit.gameObject.GetComponent<AEnemy>().Die();
                 needsJump = true;
             }
         }
@@ -313,7 +320,8 @@ public class PlayerController : MonoBehaviour
 
     public void Hit()
     {
-        myStateMachine.ChangeState(new HitState(anim, lifeController));
+        if(myStateMachine.currentState.GetType() != typeof(DeathState))
+            myStateMachine.ChangeState(new HitState(anim, lifeController));
     }
 
     private void DoIdlePlus()
