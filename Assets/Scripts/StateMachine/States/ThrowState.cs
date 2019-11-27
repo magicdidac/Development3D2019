@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallState : IState
+public class ThrowState : IState
 {
     private Animator anim;
     private PlayerController player;
 
-    public FallState(Animator anim, PlayerController player)
+    public ThrowState(Animator anim, PlayerController player)
     {
         this.anim = anim;
         this.player = player;
@@ -15,7 +15,9 @@ public class FallState : IState
 
     public void Enter()
     {
-        anim.SetBool("isGrounded", false);
+        anim.SetBool("Shell", false);
+        player.shell.Throw();
+        player.shell = null;
     }
 
     public void Execute()
@@ -25,7 +27,6 @@ public class FallState : IState
 
     public void Exit()
     {
-        anim.SetBool("isGrounded", true);
-        player.needsLongJump = false;
     }
+
 }

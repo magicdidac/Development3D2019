@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlatformController : MonoBehaviour
 {
 
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform endPoint;
+    [SerializeField] private Transform startPoint = null;
+    [SerializeField] private Transform endPoint = null;
 
     [SerializeField] private float speed = 2;
 

@@ -29,6 +29,4 @@ public class IdleState : IState
         player.CancelInvoke();
     }
 
-    
-
 }

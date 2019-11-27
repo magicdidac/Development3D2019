@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallState : IState
+public class LongJumpState : IState
 {
     private Animator anim;
     private PlayerController player;
 
-    public FallState(Animator anim, PlayerController player)
+    public LongJumpState(Animator anim, PlayerController player)
     {
         this.anim = anim;
         this.player = player;
@@ -15,7 +15,10 @@ public class FallState : IState
 
     public void Enter()
     {
-        anim.SetBool("isGrounded", false);
+        Debug.Log("LongJump");
+        anim.SetTrigger("LongJump");
+        player.needsLongJump = true;
+        player.verticalSpeed = player.jumpForce;
     }
 
     public void Execute()
@@ -25,7 +28,7 @@ public class FallState : IState
 
     public void Exit()
     {
-        anim.SetBool("isGrounded", true);
-        player.needsLongJump = false;
+        
     }
+
 }

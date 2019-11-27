@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class AEnemy : MonoBehaviour
 {
 
@@ -63,7 +65,7 @@ public abstract class AEnemy : MonoBehaviour
         }
     }
 
-    protected void Patrol()
+    protected virtual void Patrol()
     {
         if(player == null)
             player = GameManager.instance.player;
@@ -79,7 +81,7 @@ public abstract class AEnemy : MonoBehaviour
         }
     }
 
-    protected void Chase()
+    protected virtual void Chase()
     {
         agent.SetDestination(player.transform.position);
 
@@ -103,18 +105,18 @@ public abstract class AEnemy : MonoBehaviour
         }
     }
 
-    protected void Attack()
+    protected virtual void Attack()
     {
         Invoke("ChangeToPatrol", 1);
     }
 
-    protected void Death()
+    protected virtual void Death()
     {
         agent.isStopped = true;
         anim.SetTrigger("Crushed");
     }
 
-    public void DeathParticles()
+    public virtual void DeathParticles()
     {
         Destroy(Instantiate(deathParticles, transform.position, Quaternion.identity), 1);
     }
@@ -145,6 +147,14 @@ public abstract class AEnemy : MonoBehaviour
 
         Destroy(gameObject, .6f);
 
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<PlayerController>() && other.GetComponent<PlayerController>().punchIsActive)
+        {
+            Die();
+        }
     }
 
     private void OnDrawGizmos()

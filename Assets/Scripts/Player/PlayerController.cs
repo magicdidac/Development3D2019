@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundMask = 0;
     [Header("Punch")]
     [SerializeField] public Collider punchCollider = null;
+    [SerializeField] public Transform shellTarget = null;
+    [Header("Wall Jump")]
+    [SerializeField] private Transform wallChecker = null;
+    [SerializeField] private Vector3 wallCheckerExtends = Vector3.one;
 
     /** Hide Atributes **/
     [HideInInspector] private StateMachine myStateMachine = new StateMachine();
@@ -43,6 +47,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] private Transform platform;
 
     [HideInInspector] public bool punchIsActive = false;
+    [HideInInspector] public Shell shell = null;
+
+    [HideInInspector] public bool needsLongJump;
+    [HideInInspector] public bool canFall = false;
 
     /** Initialization **/
     private void Start()
@@ -96,9 +104,15 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeState()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (shell == null && Input.GetButtonDown("Fire1"))
         {
             myStateMachine.ChangeState(new PunchState(anim, GetNextPunch()));
+            return;
+        }
+
+        if(shell != null && Input.GetButtonDown("Fire1"))
+        {
+            myStateMachine.ChangeState(new ThrowState(anim, this));
             return;
         }
 
@@ -111,7 +125,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if((isGrounded && Input.GetButtonDown("Jump")))
+        if(!canFall && Input.GetButtonDown("Jump") && Input.GetButton("LongJump"))
+        {
+            myStateMachine.ChangeState(new LongJumpState(anim, this));
+            return;
+        }
+
+        if((!canFall && Input.GetButtonDown("Jump")))
         {
             if (Time.time > lastJumpTime + .2f)
                 jump = 0;
@@ -128,12 +148,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (!isGrounded){
+        if (canFall){
             myStateMachine.ChangeState(new FallState(anim, this));
             return;
         }
 
-        if(Physics.CheckSphere(transform.position + (Vector3.up * .75f), 1, groundMask))
+        //if(Physics.CheckSphere(transform.position + (Vector3.up * .75f), 1, groundMask))
 
 
         if(Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
@@ -212,21 +232,27 @@ public class PlayerController : MonoBehaviour
         forward.Normalize();
         right.y = 0;
         right.Normalize();
+        if (!needsLongJump)
+        {
+            if (Input.GetAxisRaw("Vertical") > 0)
+                movement = forward;
+            else if (Input.GetAxisRaw("Vertical") < 0)
+                movement = -forward;
 
-        if (Input.GetAxisRaw("Vertical") > 0)
+            if (Input.GetAxisRaw("Horizontal") > 0)
+                movement += right;
+            else if (Input.GetAxisRaw("Horizontal") < 0)
+                movement += -right;
+        }
+        else
             movement = forward;
-        else if (Input.GetAxisRaw("Vertical") < 0)
-            movement = -forward;
-
-        if (Input.GetAxisRaw("Horizontal") > 0)
-            movement += right;
-        else if (Input.GetAxisRaw("Horizontal") < 0)
-            movement += -right;
 
         bool hasMovement = movement != Vector3.zero;
         movement.Normalize();
 
         movement *= speed * Time.deltaTime;
+
+        movement *= (needsLongJump) ? 2 : 1;
 
         verticalSpeed += gravity * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
@@ -254,6 +280,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && !recentJump)
             verticalSpeed = 0;*/
 
+        canFall = !Physics.CheckSphere(transform.position, .4f, groundMask);
+
         if ((collisionFlags & CollisionFlags.Above) != 0 && verticalSpeed > 0.0f)
             verticalSpeed = 0;
 
@@ -274,7 +302,6 @@ public class PlayerController : MonoBehaviour
     {
         if(hit.collider.tag == "Bridge")
         {
-        Debug.Log("SI");
             Rigidbody rb = hit.collider.attachedRigidbody;
             rb.AddForceAtPosition(-hit.normal * bridgeForce, hit.point);
         }
@@ -286,6 +313,12 @@ public class PlayerController : MonoBehaviour
                 hit.gameObject.GetComponent<AEnemy>().Die();
                 needsJump = true;
             }
+        }
+
+        if (hit.gameObject.GetComponent<Shell>() && verticalSpeed < 0)
+        {
+            hit.gameObject.GetComponent<Shell>().Throw();
+            needsJump = true;
         }
 
     }
@@ -328,6 +361,26 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetTrigger("IdlePlus");
         Invoke("DoIdlePlus", 10);
+    }
+
+    public Transform TakeShell(Shell shell)
+    {
+        this.shell = shell;
+        myStateMachine.ChangeState(new TakeState(anim));
+        return shellTarget;
+    }
+
+    public bool CanWallJump()
+    {
+        return Physics.CheckBox(wallChecker.position, wallCheckerExtends/2, Quaternion.identity, groundMask);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(wallChecker != null)
+        {
+            Gizmos.DrawWireCube(wallChecker.position, wallCheckerExtends);
+        }
     }
 
 }

@@ -24,7 +24,8 @@ public class DebugUI : MonoBehaviour
         stateText.text = player.GetCurrentState();
 
         statatsText.text = "isGrounded: " + player.isGrounded +
-            "\nrecentJump: " + player.recentJump;
+            "\nrecentJump: " + player.recentJump +
+            "\ncanWallJump: " + player.CanWallJump();
 
     }
 
