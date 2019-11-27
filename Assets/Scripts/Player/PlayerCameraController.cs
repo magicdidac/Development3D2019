@@ -110,8 +110,6 @@ public class PlayerCameraController : MonoBehaviour
             desiredPosition = hit.point + direction * offsetOnCollision;
         }
 
-        
-
     }
 
 }

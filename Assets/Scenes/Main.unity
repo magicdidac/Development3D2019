@@ -1365,7 +1365,7 @@ MonoBehaviour:
   punchCollider: {fileID: 1278412075}
   shellTarget: {fileID: 290444186}
   wallChecker: {fileID: 1003769102}
-  wallCheckerExtends: {x: 1, y: 1, z: 1}
+  wallCheckerExtends: {x: 1.5, y: 1, z: 1.5}
   isGrounded: 0
   verticalSpeed: 0
   speed: 0
@@ -1373,6 +1373,7 @@ MonoBehaviour:
   punchIsActive: 0
   shell: {fileID: 0}
   needsLongJump: 0
+  needsWallJump: 0
   canFall: 0
 --- !u!114 &212352263
 MonoBehaviour:

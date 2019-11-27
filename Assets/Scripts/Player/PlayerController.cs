@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool isGrounded;
     [HideInInspector] public float verticalSpeed;
     [HideInInspector] private Transform camTransform;
-    [HideInInspector] private Vector3 lastForward;
+    [HideInInspector] public Vector3 lastForward;
     [HideInInspector] public float speed;
 
     [HideInInspector] private int punch = 0;
@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Shell shell = null;
 
     [HideInInspector] public bool needsLongJump;
+    [HideInInspector] public bool needsWallJump;
+    [HideInInspector] public Vector3 wallForward = Vector3.zero;
     [HideInInspector] public bool canFall = false;
 
     /** Initialization **/
@@ -113,6 +115,12 @@ public class PlayerController : MonoBehaviour
         if(shell != null && Input.GetButtonDown("Fire1"))
         {
             myStateMachine.ChangeState(new ThrowState(anim, this));
+            return;
+        }
+
+        if(CanWallJump() && !isGrounded && Input.GetButtonDown("Jump"))
+        {
+            myStateMachine.ChangeState(new WallJumpState(anim, this));
             return;
         }
 
@@ -232,7 +240,7 @@ public class PlayerController : MonoBehaviour
         forward.Normalize();
         right.y = 0;
         right.Normalize();
-        if (!needsLongJump)
+        if (!needsLongJump && !needsWallJump)
         {
             if (Input.GetAxisRaw("Vertical") > 0)
                 movement = forward;
@@ -244,8 +252,12 @@ public class PlayerController : MonoBehaviour
             else if (Input.GetAxisRaw("Horizontal") < 0)
                 movement += -right;
         }
+        else if (needsLongJump && !needsWallJump)
+            movement = lastForward;
         else
-            movement = forward;
+        {
+            movement = wallForward;
+        }
 
         bool hasMovement = movement != Vector3.zero;
         movement.Normalize();
@@ -381,6 +393,12 @@ public class PlayerController : MonoBehaviour
         {
             Gizmos.DrawWireCube(wallChecker.position, wallCheckerExtends);
         }
+    }
+
+    private void ResetWallJump()
+    {
+        needsWallJump = false;
+        wallForward = Vector3.zero;
     }
 
 }

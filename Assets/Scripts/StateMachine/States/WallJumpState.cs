@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongJumpState : IState
+public class WallJumpState : IState
 {
     private Animator anim;
     private PlayerController player;
 
-    public LongJumpState(Animator anim, PlayerController player)
+    public WallJumpState(Animator anim, PlayerController player)
     {
         this.anim = anim;
         this.player = player;
@@ -15,9 +15,11 @@ public class LongJumpState : IState
 
     public void Enter()
     {
-        anim.SetTrigger("LongJump");
-        player.needsLongJump = true;
+        anim.SetTrigger("WallJump");
+        player.needsWallJump = true;
         player.verticalSpeed = player.jumpForce;
+        player.Invoke("ResetWallJump",.5f);
+        player.wallForward = -player.lastForward;
     }
 
     public void Execute()
@@ -29,5 +31,4 @@ public class LongJumpState : IState
     {
         
     }
-
 }
