@@ -69,7 +69,7 @@ public class UIController : MonoBehaviour
                 ActiveDead();
 
 
-            if (gm.player.lifeController.currentLives < 0)
+            if (gm.player.lifeController.currentLives <= 0)
                 reviveButton.SetActive(false);
             else
                 reviveButton.SetActive(true);
@@ -107,10 +107,18 @@ public class UIController : MonoBehaviour
         gm.ExitGame();
     }
 
+    public void SetFalseListener()
+    {
+        gm.audioManager.SetListenerEnableTo(false);
+    }
+
     public void Revive()
     {
         gm.Revive();
+        gm.audioManager.SetListenerEnableTo(true);
+        gm.audioManager.Play("Song-MainTheme");
         fadeAnimator.SetBool("Dead", false);
+        Refresh();
     }
 
 }

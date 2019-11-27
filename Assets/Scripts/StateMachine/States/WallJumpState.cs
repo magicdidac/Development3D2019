@@ -17,7 +17,7 @@ public class WallJumpState : IState
     {
         anim.SetTrigger("WallJump");
         player.needsWallJump = true;
-        player.verticalSpeed = player.jumpForce;
+        player.verticalSpeed = player.tripleJumpForce;
         player.Invoke("ResetWallJump",.5f);
         player.wallForward = -player.lastForward;
     }

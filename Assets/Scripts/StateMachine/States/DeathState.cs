@@ -13,7 +13,7 @@ public class DeathState : IState
 
     public void Enter()
     {
-        anim.SetTrigger("Death");
+        anim.SetBool("Death", true);
     }
 
     public void Execute()
@@ -23,6 +23,6 @@ public class DeathState : IState
 
     public void Exit()
     {
-        
+        anim.SetBool("Death", false);        
     }
 }

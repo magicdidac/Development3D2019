@@ -24,6 +24,9 @@ public class PlayerLifeController : MonoBehaviour
     {
         currentLifes--;
 
+        if (currentLifes < 0)
+            currentLifes = 0;
+
         if (currentLifes <= 0)
             Die();
 
@@ -34,6 +37,9 @@ public class PlayerLifeController : MonoBehaviour
     public void IncreaseLifes()
     {
         currentLifes++;
+
+        if (currentLifes > initialLifes)
+            currentLifes = initialLifes;
 
         GameManager.instance.uiController.Refresh();
 
@@ -67,6 +73,12 @@ public class PlayerLifeController : MonoBehaviour
             Die();
         }
 
+    }
+
+    public void Revive()
+    {
+        currentLives--;
+        currentLifes = initialLifes;
     }
 
 

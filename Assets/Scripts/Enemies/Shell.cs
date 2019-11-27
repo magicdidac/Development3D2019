@@ -23,17 +23,18 @@ public class Shell : MonoBehaviour
     private void Update()
     {
         anim.SetFloat("Speed", GetSpeed());
+        //rb.velocity = new Vector3(rb.velocity.x, -1, rb.velocity.z);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(transform.parent == null && other.GetComponent<PlayerController>() && Input.GetButtonDown("Interact"))
+        /*if(transform.parent == null && other.GetComponent<PlayerController>() && Input.GetButtonDown("Interact"))
         {
             transform.parent = other.GetComponent<PlayerController>().TakeShell(this);
             transform.localPosition = Vector3.zero;
             rb.isKinematic = true;
             col.enabled = false;
-        }
+        }*/
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -61,6 +62,14 @@ public class Shell : MonoBehaviour
     private float GetSpeed()
     {
         return Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
+    }
+
+    public void Take(Transform parent)
+    {
+        transform.parent = parent;
+        transform.localPosition = Vector3.zero;
+        rb.isKinematic = true;
+        col.enabled = false;
     }
 
     public void Throw()

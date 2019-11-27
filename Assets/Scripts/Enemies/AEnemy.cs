@@ -149,14 +149,6 @@ public abstract class AEnemy : MonoBehaviour
 
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.GetComponent<PlayerController>() && other.GetComponent<PlayerController>().punchIsActive)
-        {
-            Die();
-        }
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;

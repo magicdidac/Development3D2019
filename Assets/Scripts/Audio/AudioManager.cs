@@ -176,4 +176,9 @@ public class AudioManager : MonoBehaviour
         source.loop = s.loop;
     }
 
+    public void SetListenerEnableTo(bool b)
+    {
+        gm.player.GetComponent<AudioListener>().enabled = b;
+    }
+
 }

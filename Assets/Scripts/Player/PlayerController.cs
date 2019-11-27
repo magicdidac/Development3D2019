@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(CanWallJump() && !isGrounded && Input.GetButtonDown("Jump"))
+        if(CanWallJump() && (canFall || !isGrounded) && Input.GetButtonDown("Jump"))
         {
             myStateMachine.ChangeState(new WallJumpState(anim, this));
             return;
@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForceAtPosition(-hit.normal * bridgeForce, hit.point);
         }
 
-        if(hit.gameObject.GetComponent<AEnemy>())
+        if(hit.gameObject.GetComponent<AEnemy>() && collisionFlags == CollisionFlags.Below)
         {
             if (verticalSpeed < 0)
             {
@@ -342,6 +342,17 @@ public class PlayerController : MonoBehaviour
         {
             AttachPlatform(other.transform);
         }
+
+        if(other.GetComponent<AEnemy>() && punchIsActive)
+        {
+            other.GetComponent<AEnemy>().Die();
+        }
+
+        if(other.GetComponent<Shell>() && Input.GetButtonDown("Interact"))
+        {
+            TakeShell(other.GetComponent<Shell>());
+        }
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -375,11 +386,11 @@ public class PlayerController : MonoBehaviour
         Invoke("DoIdlePlus", 10);
     }
 
-    public Transform TakeShell(Shell shell)
+    private void TakeShell(Shell shell)
     {
         this.shell = shell;
         myStateMachine.ChangeState(new TakeState(anim));
-        return shellTarget;
+        this.shell.Take(shellTarget);
     }
 
     public bool CanWallJump()
@@ -399,6 +410,20 @@ public class PlayerController : MonoBehaviour
     {
         needsWallJump = false;
         wallForward = Vector3.zero;
+    }
+
+    public void Revive(Transform position)
+    {
+        characterController.enabled = false;
+        transform.position = position.position;
+        characterController.enabled = true;
+
+        transform.forward = position.forward;
+
+        myStateMachine.ChangeState(new IdleState(anim, this));
+
+        lifeController.Revive();
+
     }
 
 }

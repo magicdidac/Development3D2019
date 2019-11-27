@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerController player;
     [HideInInspector] public UIController uiController;
     [HideInInspector] public AudioManager audioManager;
+    [HideInInspector] public Transform savedPlayerPos;
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public void Revive()
     {
-
+        player.Revive(savedPlayerPos);
     }
 
 }
