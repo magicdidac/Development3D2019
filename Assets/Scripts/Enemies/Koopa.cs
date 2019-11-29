@@ -13,7 +13,7 @@ public class Koopa : AEnemy
     public override void DeathParticles()
     {
         base.DeathParticles();
-        Instantiate(shell, transform.position, Quaternion.identity);
+        Instantiate(shell, transform.position+Vector3.up, Quaternion.identity);
     }
 
 }

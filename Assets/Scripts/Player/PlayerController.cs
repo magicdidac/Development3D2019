@@ -343,8 +343,14 @@ public class PlayerController : MonoBehaviour
             AttachPlatform(other.transform);
         }
 
+        if (other.GetComponent<AEnemy>())
+        {
+            Debug.Log("Y");
+        }
+
         if(other.GetComponent<AEnemy>() && punchIsActive)
         {
+            Debug.Log("YOU");
             other.GetComponent<AEnemy>().Die();
         }
 
