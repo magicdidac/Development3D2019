@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+
+    
+
     [Header("General")]
     [SerializeField] private Animator anim = null;
     [SerializeField] public PlayerLifeController lifeController = null;
@@ -54,6 +57,17 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector3 wallForward = Vector3.zero;
     [HideInInspector] public bool canFall = false;
 
+
+    /** Controls **/
+    [HideInInspector] private InputMaster controls;
+    [HideInInspector] private bool longJumpInput;
+    [HideInInspector] private bool runInput;
+    [HideInInspector] private bool interactInput;
+    [HideInInspector] private Vector2 moveInput;
+
+    [SerializeField] private LayerMask enemyLayer = 0;
+    [SerializeField] private Transform punchChecker = null;
+
     /** Initialization **/
     private void Start()
     {
@@ -63,6 +77,25 @@ public class PlayerController : MonoBehaviour
         myStateMachine.ChangeState(new IdleState(anim, this));
 
         camTransform = Camera.main.transform;
+
+        this.controls = GameManager.instance.controls;
+
+
+        this.controls.Player.Jump.started += _ => Jump();
+
+        this.controls.Player.LongJumpCharger.started += _ => longJumpInput = true;
+        this.controls.Player.LongJumpCharger.canceled += _ => longJumpInput = false;
+
+        this.controls.Player.Run.started += _ => runInput = true;
+        this.controls.Player.Run.canceled += _ => runInput = false;
+
+        this.controls.Player.Interact.started += _ => interactInput = true;
+        this.controls.Player.Interact.canceled += _ => interactInput = false;
+
+        this.controls.Player.Punch.started += _ => PunchThrow();
+
+        controls.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Movement.canceled += _ => moveInput = Vector2.zero;
 
     }
 
@@ -106,23 +139,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeState()
     {
-        if (shell == null && Input.GetButtonDown("Fire1"))
-        {
-            myStateMachine.ChangeState(new PunchState(anim, GetNextPunch()));
-            return;
-        }
-
-        if(shell != null && Input.GetButtonDown("Fire1"))
-        {
-            myStateMachine.ChangeState(new ThrowState(anim, this));
-            return;
-        }
-
-        if(CanWallJump() && (canFall || !isGrounded) && Input.GetButtonDown("Jump"))
-        {
-            myStateMachine.ChangeState(new WallJumpState(anim, this));
-            return;
-        }
+        
 
         if (needsJump)
         {
@@ -133,13 +150,43 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(!canFall && Input.GetButtonDown("Jump") && Input.GetButton("LongJump"))
+        if (canFall){
+            myStateMachine.ChangeState(new FallState(anim, this));
+            return;
+        }
+
+        if(moveInput.x != 0 || moveInput.y != 0)
         {
+            if(runInput)
+                myStateMachine.ChangeState(new RunState(anim, this));
+            else
+                myStateMachine.ChangeState(new WalkState(anim, this));
+
+            return;
+        }
+
+        myStateMachine.ChangeState(new IdleState(anim, this));
+    }
+
+
+    private void Jump()
+    {
+
+        /** Wall Jump **/
+        if (CanWallJump() && (canFall || !isGrounded))
+        {
+            myStateMachine.ChangeState(new WallJumpState(anim, this));
+            return;
+        }
+
+        if (!canFall && longJumpInput)
+        {
+            longJumpInput = false;
             myStateMachine.ChangeState(new LongJumpState(anim, this));
             return;
         }
 
-        if((!canFall && Input.GetButtonDown("Jump")))
+        if (!canFall)
         {
             if (Time.time > lastJumpTime + .2f)
                 jump = 0;
@@ -156,25 +203,18 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (canFall){
-            myStateMachine.ChangeState(new FallState(anim, this));
-            return;
-        }
-
-        //if(Physics.CheckSphere(transform.position + (Vector3.up * .75f), 1, groundMask))
+    }
 
 
-        if(Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
+    private void PunchThrow()
+    {
+        if (shell == null)
         {
-            if(Input.GetButton("Run"))
-                myStateMachine.ChangeState(new RunState(anim, this));
-            else
-                myStateMachine.ChangeState(new WalkState(anim, this));
-
+            myStateMachine.ChangeState(new PunchState(anim, GetNextPunch()));
             return;
         }
 
-        myStateMachine.ChangeState(new IdleState(anim, this));
+        myStateMachine.ChangeState(new ThrowState(anim, this));
     }
 
     private void ResetAnimPosition()
@@ -184,19 +224,51 @@ public class PlayerController : MonoBehaviour
 
     /** Punchs **/
 
+    private void HitEnemy(Collider[] hitObjects)
+    {
+        foreach(Collider c in hitObjects)
+        {
+            if (c.GetComponent<AEnemy>())
+            {
+                c.GetComponent<AEnemy>().Die();
+                return;
+            }
+        }
+    }
+
     public void EnableLeftHandPunch(bool enableHandPunch)
     {
-        punchIsActive = enableHandPunch;
+
+        if (enableHandPunch)
+        {
+            Collider[] hitObjects = Physics.OverlapSphere(punchChecker.position, 1, enemyLayer);
+
+            if (hitObjects.Length > 0)
+                HitEnemy(hitObjects);
+        }
+
     }
 
     public void EnableRightHandPunch(bool enableHandPunch)
     {
-        punchIsActive = enableHandPunch;
+        if (enableHandPunch)
+        {
+            Collider[] hitObjects = Physics.OverlapSphere(punchChecker.position, 1, enemyLayer);
+
+            if (hitObjects.Length > 0)
+                HitEnemy(hitObjects);
+        }
     }
 
     public void EnableKick(bool enableHandPunch)
     {
-        punchIsActive = enableHandPunch;
+        if (enableHandPunch)
+        {
+            Collider[] hitObjects = Physics.OverlapSphere(punchChecker.position, 1, enemyLayer);
+
+            if (hitObjects.Length > 0)
+                HitEnemy(hitObjects);
+        }
     }
 
     private PunchBehaviour.TPunchType GetNextPunch()
@@ -242,14 +314,14 @@ public class PlayerController : MonoBehaviour
         right.Normalize();
         if (!needsLongJump && !needsWallJump)
         {
-            if (Input.GetAxisRaw("Vertical") > 0)
+            if (moveInput.y > 0)
                 movement = forward;
-            else if (Input.GetAxisRaw("Vertical") < 0)
+            else if (moveInput.y < 0)
                 movement = -forward;
 
-            if (Input.GetAxisRaw("Horizontal") > 0)
+            if (moveInput.x > 0)
                 movement += right;
-            else if (Input.GetAxisRaw("Horizontal") < 0)
+            else if (moveInput.x < 0)
                 movement += -right;
         }
         else if (needsLongJump && !needsWallJump)
@@ -343,19 +415,22 @@ public class PlayerController : MonoBehaviour
             AttachPlatform(other.transform);
         }
 
-        if (other.GetComponent<AEnemy>())
+        /*if (other.tag == "Goomba" || other.tag == "Koopa")
         {
             Debug.Log("Y");
         }
 
+        Debug.Log(punchIsActive);
+        
         if(other.GetComponent<AEnemy>() && punchIsActive)
         {
             Debug.Log("YOU");
             other.GetComponent<AEnemy>().Die();
-        }
+        }*/
 
-        if(other.GetComponent<Shell>() && Input.GetButtonDown("Interact"))
+        if(other.GetComponent<Shell>() && interactInput)
         {
+            interactInput = false;
             TakeShell(other.GetComponent<Shell>());
         }
 

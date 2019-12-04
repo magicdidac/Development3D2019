@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public UIController uiController;
     [HideInInspector] public AudioManager audioManager;
     [HideInInspector] public Transform savedPlayerPos;
+    [HideInInspector] public InputMaster controls;
 
     private void Awake()
     {
@@ -21,6 +22,11 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         DontDestroyOnLoad(gameObject);
+
+
+        controls = new InputMaster();
+
+        controls.Enable();
 
     }
 

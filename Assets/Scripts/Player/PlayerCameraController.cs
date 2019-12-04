@@ -21,14 +21,25 @@ public class PlayerCameraController : MonoBehaviour
 
     [HideInInspector] private bool moveBack = false;
 
+    [HideInInspector] private InputMaster controls;
+    [HideInInspector] private Vector2 mouseInput;
+
+    private void Start()
+    {
+        controls = GameManager.instance.controls;
+
+
+        controls.Player.Look.performed += ctx => mouseInput = ctx.ReadValue<Vector2>();
+        controls.Player.Look.canceled += _ => mouseInput = Vector2.zero;
+    }
 
     private void LateUpdate()
     {
         if (GameManager.instance.player.lifeController.currentLifes <= 0)
             return;
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = mouseInput.x;
+        float mouseY = mouseInput.y;
 
         desiredPosition = transform.position;
         direction = transform.forward;
